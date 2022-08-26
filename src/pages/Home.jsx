@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Field, Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 import CustomSelect from "../components/CustomSelect";
 
 // const useClickOutside = (handler) => {
@@ -11,7 +11,6 @@ const handler = () => {
 };
 
 const Home = () => {
-  // const [isOpen, setIsOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
   let menuRef = useRef();
@@ -31,19 +30,26 @@ const Home = () => {
 
   const handleSelectToggle = () => {
     setIsOpen((isOpen) => !isOpen);
+    // formik.setTouched("degree");
+  };
+
+  const handleSelectChange = (value) => {
+    formik.setFieldValue("degree", value);
   };
 
   const validate = (values) => {
     const errors = {};
-    if (!values.firstName) {
-      errors.firstName = "Required";
-    } else if (values.firstName.length > 15) {
-      errors.firstName = "Must be 15 characters or less";
+    if (!values.fullName) {
+      errors.fullName = "Required";
+    } else if (values.fullName.length > 15) {
+      errors.fullName = "Must be 15 characters or less";
     }
-    if (!values.lastName) {
-      errors.lastName = "Required";
-    } else if (values.lastName.length > 15) {
-      errors.lastName = "Must be 15 characters or less";
+    if (!values.age) {
+      errors.age = "Required";
+    } else if (values.age < 0) {
+      errors.age = "Valor invalido";
+    } else if (values.age > 100) {
+      errors.age = "Ah sos re troll";
     }
     if (!values.email) {
       errors.email = "Required";
@@ -51,6 +57,10 @@ const Home = () => {
       !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
     ) {
       errors.email = "Invalid email address";
+    }
+
+    if (!values.degree) {
+      errors.degree = "Required";
     }
     return errors;
   };
@@ -65,9 +75,12 @@ const Home = () => {
     },
     validate,
     onSubmit: (values) => {
+      console.log(values);
       alert(JSON.stringify(values, null, 2));
     },
   });
+
+  console.log(formik.values);
 
   return (
     <div className="relative overflow-hidden min-h-screen h-full flex items-center justify-center bg-neutral-900 text-slate-200">
@@ -110,31 +123,16 @@ const Home = () => {
         {formik.touched.age && formik.errors.age ? (
           <div>{formik.errors.age}</div>
         ) : null}
-        <label htmlFor="email" className="">
-          Carrera
-        </label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          {...formik.getFieldProps("email")}
-          className="focus:outline-none focus:border-indigo-900 bg-white/5 border-2 border-neutral-800 h-10 rounded-md w-full px-2 mb-6"
-        />
-        {formik.touched.email && formik.errors.email ? (
-          <div>{formik.errors.email}</div>
-        ) : null}
 
-        {/* <CustomSelect
+        <CustomSelect
           ref={menuRef}
           isOpen={isOpen}
           handleToggle={handleSelectToggle}
-          {...formik.getFieldProps("degree")}
-        ></CustomSelect> */}
+          handleSelectChange={handleSelectChange}
+        ></CustomSelect>
 
-        {formik.touched.degree && formik.errors.degree ? (
-          <div className="absolute bottom-0 text-red-600 text-sm">
-            {formik.errors.degree}
-          </div>
+        {formik.errors.degree ? (
+          <div className=" text-red-600 text-sm">{formik.errors.degree}</div>
         ) : null}
 
         <div className="relative">

@@ -1,10 +1,13 @@
+import { useField } from "formik";
 import React, { forwardRef, useState } from "react";
 
 const CustomSelect = forwardRef(
-  ({ isOpen, handleToggle, errors, options, value, onChange }, ref) => {
+  ({ isOpen, handleToggle, handleSelectChange }, ref) => {
     const [userSelection, setUserSelection] = useState("");
+
     const handleSelection = (value) => {
       setUserSelection(value);
+      handleSelectChange(value);
       handleToggle();
     };
 
