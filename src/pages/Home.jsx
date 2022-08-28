@@ -1,32 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useFormik } from "formik";
 import CustomSelect from "../components/CustomSelect";
-
-// const useClickOutside = (handler) => {
-//   const domNode = useRef();
-// };
-
-const handler = () => {
-  console.log("Click");
-};
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "../firebase/firebase";
 
 const Home = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  let menuRef = useRef();
-
-  useEffect(() => {
-    let handler = (event) => {
-      if (!menuRef.current.contains(event.target)) {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handler);
-
-    return () => {
-      document.removeEventListener("mousedown", handler);
-    };
-  });
+  const postFormData = async (formData) => {
+    try {
+      const docRef = await addDoc(collection(db, "survey"), formData);
+      console.log("documment written with ID " + docRef.id);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const handleSelectToggle = () => {
     setIsOpen((isOpen) => !isOpen);
@@ -59,9 +45,9 @@ const Home = () => {
       errors.email = "Invalid email address";
     }
 
-    if (!values.degree) {
-      errors.degree = "Required";
-    }
+    // if (!values.degree) {
+    //   errors.degree = "Required";
+    // }
     return errors;
   };
 
@@ -70,17 +56,18 @@ const Home = () => {
       fullName: "",
       age: "",
       email: "",
-      degree: "",
+      degree: "Select",
       gameIdea: "",
     },
     validate,
     onSubmit: (values) => {
       console.log(values);
+      postFormData(values);
       alert(JSON.stringify(values, null, 2));
     },
   });
 
-  console.log(formik.values);
+  // console.log(formik.values);
 
   return (
     <div className="relative overflow-hidden min-h-screen h-full flex items-center justify-center bg-neutral-900 text-slate-200">
@@ -124,12 +111,7 @@ const Home = () => {
           <div>{formik.errors.age}</div>
         ) : null}
 
-        <CustomSelect
-          ref={menuRef}
-          isOpen={isOpen}
-          handleToggle={handleSelectToggle}
-          handleSelectChange={handleSelectChange}
-        ></CustomSelect>
+        <CustomSelect {...formik.getFieldProps("degree")}></CustomSelect>
 
         {formik.errors.degree ? (
           <div className=" text-red-600 text-sm">{formik.errors.degree}</div>
@@ -142,7 +124,7 @@ const Home = () => {
           <input
             id="email"
             name="email"
-            type="email"
+            type="text"
             {...formik.getFieldProps("email")}
             className="focus:outline-none focus:border-indigo-900 bg-white/5 border-2 border-neutral-800 h-10 rounded-md w-full px-2 mb-6"
           />
@@ -174,7 +156,7 @@ const Home = () => {
         <textarea
           id="gameIdea"
           name="gameIdea"
-          type="gameIdea"
+          type="text"
           {...formik.getFieldProps("gameIdea")}
           className="focus:outline-none focus:border-indigo-900  bg-white/5 border-2 border-neutral-800 rounded-md h-28 w-full p-2 resize-none"
         />
