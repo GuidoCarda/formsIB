@@ -13,10 +13,10 @@ const Home = () => {
     control,
   } = useForm({
     defaultValues: {
-      fullName: "test 1",
-      email: "dejanosTuMailPorfi@gmail.com",
-      age: 20,
-      carreras: "Selecciona tu carrera",
+      fullName: "",
+      email: "",
+      age: "",
+      carreras: "",
       plays: false,
       gameIdea: "",
     },
@@ -52,40 +52,49 @@ const Home = () => {
         <label htmlFor="fullName">Nombre y apellido</label>
         <input
           {...register("fullName", { required: true })}
+          placeholder="Rosa melano"
           className="focus:outline-none focus:border-indigo-900 bg-white/5 border-2 border-neutral-800 h-10 rounded-md w-full px-2 mb-6"
         />
 
-        {errors.fullName && <span>This field is required</span>}
+        {errors.fullName && <span>Este campo es requerido</span>}
 
         <label htmlFor="email">Email ( Contacto ) </label>
         <input
           {...register("email", { required: true })}
+          placeholder="rosamelano@gmail.com"
           className="focus:outline-none focus:border-indigo-900 bg-white/5 border-2 border-neutral-800 h-10 rounded-md w-full px-2 mb-6"
         />
 
-        {errors.email && <span>This field is required</span>}
+        {errors.email && <span>Este campo es requerido</span>}
 
-        <label htmlFor="age">Edad</label>
-        <input
-          {...register("age", {
-            required: true,
-            min: { value: 0, message: "the number must be higher than zero" },
-            max: { value: 100, message: "Ah you are so troll" },
-          })}
-          className="focus:outline-none focus:border-indigo-900 bg-white/5 border-2 border-neutral-800 h-10 rounded-md w-full px-2 mb-6"
-        />
+        <div className="relative">
+          <label htmlFor="age">Edad</label>
+          <input
+            {...register("age", {
+              required: true,
+              min: { value: 0, message: "Valor invalido" },
+              max: { value: 100, message: "Ah sos re troll" },
+            })}
+            placeholder="20"
+            className="focus:outline-none focus:border-indigo-900 bg-white/5 border-2 border-neutral-800 h-10 rounded-md w-full px-2 mb-10"
+          />
 
-        {errors.age && (
-          <span>
-            {errors.age.message ? errors.age.message : "This field is required"}
-          </span>
-        )}
+          {errors.age && (
+            <span className=" absolute top-16 text-sm mt-2 left-0 text-red-500">
+              {errors.age.message
+                ? errors.age.message
+                : "Este campo es requerido"}
+            </span>
+          )}
+        </div>
 
         <CustomSelect
           name={"carreras"}
           control={control}
           rules={{ required: true }}
         ></CustomSelect>
+
+        {errors.carreras && <span>Este campo es requerido</span>}
 
         <div className="flex gap-4 accent-indigo-500 items-center">
           <label htmlFor="plays">Jugas algun video juego?</label>
@@ -99,7 +108,7 @@ const Home = () => {
               {...register("gamesPlayed", { required: plays ? true : false })}
               className="focus:outline-none focus:border-indigo-900 bg-white/5 border-2 border-neutral-800 h-10 rounded-md w-full px-2 mb-6"
             />
-            {errors.gamesPlayed && <span>This field is required</span>}
+            {errors.gamesPlayed && <span>Este campo es requerido</span>}
           </>
         )}
 
@@ -120,6 +129,7 @@ const Home = () => {
 
         <label htmlFor="gameIdea">Game idea</label>
         <textarea
+          placeholder="Un videojuego ambientado en xxx que se trate de xxx y que el objetivo sea xxx ... Vo me entende, algo asi. Iluminanos"
           {...register("gameIdea", { required: true })}
           className="focus:outline-none focus:border-indigo-900  bg-white/5 border-2 border-neutral-800 rounded-md h-28 w-full p-2 resize-none"
         />
