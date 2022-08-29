@@ -1,5 +1,5 @@
 import { Listbox } from "@headlessui/react";
-import React, { useState } from "react";
+import React from "react";
 import { useController } from "react-hook-form";
 
 const carreras = [
