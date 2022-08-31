@@ -52,7 +52,7 @@ const Home = () => {
         <label htmlFor="fullName">Nombre y apellido</label>
         <input
           {...register("fullName", { required: true })}
-          placeholder="Rosa melano"
+          placeholder="Guido Carda"
           className="focus:outline-none focus:border-indigo-900 bg-neutral-900 border-2 border-neutral-800 h-10 rounded-md w-full px-2 mb-6"
         />
 
