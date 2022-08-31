@@ -3,6 +3,7 @@ import CustomSelect from "../components/CustomSelect";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 import { useForm } from "react-hook-form";
+import Input from "../components/Input";
 
 const Home = () => {
   const {
@@ -49,14 +50,21 @@ const Home = () => {
           Buenas! Somos un grupo de estudiantes de desarrollo de software y
           queriamos pedirte tu ayuda!{" "}
         </p>
-        <label htmlFor="fullName">Nombre y apellido</label>
-        <input
-          {...register("fullName", { required: true })}
-          placeholder="Rosa melano"
-          className="focus:outline-none focus:border-indigo-900 bg-neutral-900 border-2 border-neutral-800 h-10 rounded-md w-full px-2 mb-6"
-        />
 
-        {errors.fullName && <span>Este campo es requerido</span>}
+        <div className="relative">
+          <label htmlFor="fullName">Nombre y apellido</label>
+          <input
+            {...register("fullName", { required: true })}
+            placeholder="Rosa melano"
+            className="focus:outline-none focus:border-indigo-900 bg-neutral-900 border-2 border-neutral-800 h-10 rounded-md w-full px-2 mb-6"
+          />
+
+          {errors.fullName && (
+            <span className=" absolute top-16 text-sm mt-2 left-0 text-red-500">
+              Este campo es requerido
+            </span>
+          )}
+        </div>
 
         <label htmlFor="email">Email ( Contacto ) </label>
         <input
@@ -69,7 +77,7 @@ const Home = () => {
         />
 
         {errors.email && (
-          <span>
+          <span className="">
             {errors?.email?.message
               ? errors?.email?.message
               : "Campo requerido"}
@@ -95,14 +103,19 @@ const Home = () => {
             </span>
           )}
         </div>
+        <div className="relative">
+          <CustomSelect
+            name={"carreras"}
+            control={control}
+            rules={{ required: true }}
+          ></CustomSelect>
 
-        <CustomSelect
-          name={"carreras"}
-          control={control}
-          rules={{ required: true }}
-        ></CustomSelect>
-
-        {errors.carreras && <span>Este campo es requerido</span>}
+          {errors.carreras && (
+            <span className=" absolute top-10 z-0 text-sm mt-2 left-0 text-red-500">
+              Este campo es requerido
+            </span>
+          )}
+        </div>
 
         <div className="flex gap-4 accent-indigo-500 items-center">
           <label htmlFor="plays">Jugas algun video juego?</label>
