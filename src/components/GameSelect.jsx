@@ -1,43 +1,65 @@
-import { useState } from 'react'
-import { RadioGroup } from '@headlessui/react'
+import { useState } from "react";
+import { RadioGroup } from "@headlessui/react";
+
+const games = [
+  "Valorant",
+  "CSGO",
+  "LOL",
+  "WoW",
+  "TFT",
+  "Hearthstorm",
+  "Souls",
+  "GTA V",
+  "Clash Royale",
+  "Free Fire",
+];
 
 function GameSelect() {
-  let [plan, setPlan] = useState('startup')
+  const [selectedGames, setSelectedGames] = useState([]);
+
+  const isSelected = (value) =>
+    selectedGames.find((element) => element === value);
+
+  const handleGameSelection = (game) => {
+    if (selectedGames.includes(game)) {
+      const filteredSelection = selectedGames.filter(
+        (alreadySelectedGame) => alreadySelectedGame !== game
+      );
+      setSelectedGames(filteredSelection);
+    } else {
+      setSelectedGames([...selectedGames, game]);
+    }
+  };
 
   return (
-    <RadioGroup className="content-center flex justify-around justify-items-center gap-4 accent-indigo-500" value={plan} onChange={setPlan}>
-      <RadioGroup.Option value="valorant" className="focus:outline-none focus:border-indigo-900 bg-neutral-900 border-2 border-neutral-800 h-10 rounded-md w-auto " >
-          {({ checked }) => (
-          <span className={`flex items-center h-full px-4 ${checked ? 'bg-blue-200' : ''}`}>Valorant</span>
-          )}
-      </RadioGroup.Option>
-      <RadioGroup.Option  className="focus:outline-none focus:border-indigo-900 bg-neutral-900 border-2 border-neutral-800 h-10 rounded-md w-auto " value="lol">
-        {({ checked }) => (
-          <span className={`flex items-center h-full px-4 ${checked ? 'bg-blue-200' : ''}`}>Lol</span>
-        )}
-      </RadioGroup.Option>
-      
-      <RadioGroup.Option  className="focus:outline-none focus:border-indigo-900 bg-neutral-900 border-2 border-neutral-800 h-10 rounded-md w-auto " value="dota">
-        {({ checked }) => (
-            <span className={`flex items-center h-full px-4 ${checked ? 'bg-blue-200' : ''}`}>Dota</span>
-
-        )}
-      </RadioGroup.Option>
-      <RadioGroup.Option  className="focus:outline-none focus:border-indigo-900 bg-neutral-900 border-2 border-neutral-800 h-10 rounded-md w-auto "value="nfs">
-        {({ checked }) => (
-          <span className={`flex items-center h-full px-4 ${checked ? 'bg-blue-200' : ''}`}>NFS</span>
-
-        )}
-      </RadioGroup.Option>
-      <RadioGroup.Option className="focus:outline-none focus:border-indigo-900 bg-neutral-900 border-2 border-neutral-800 h-10 rounded-md w-auto " value="ashe">
-        {({ checked }) => (
-          <span className={`flex items-center h-full px-4 ${checked ? 'bg-blue-200' : ''}`}>Ashe</span>
-
-        )}
-      </RadioGroup.Option>
-    </RadioGroup>
-  )
+    <>
+      <label className="mb-3">Jugas alguno de estos juegos?</label>
+      <RadioGroup
+        className=" flex flex-wrap gap-4 accent-indigo-500"
+        value={selectedGames}
+        onChange={handleGameSelection}
+      >
+        {games.map((game) => (
+          <RadioGroup.Option
+            value={game.toLowerCase()}
+            className="bg-neutral-900  rounded-md h-10 overflow-hidden"
+          >
+            {
+              <span
+                className={`flex items-center border-2 border-neutral-800 transition-colors rounded-md h-full px-4 overflow-hidden  ${
+                  selectedGames.includes(game.toLowerCase())
+                    ? "bg-indigo-900 border-indigo-500 text-white"
+                    : ""
+                }`}
+              >
+                {game}
+              </span>
+            }
+          </RadioGroup.Option>
+        ))}
+      </RadioGroup>
+    </>
+  );
 }
 
-  
 export default GameSelect;

@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import CustomSelect from "../components/CustomSelect";
 import GameSelect from "../components/GameSelect";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 import { useForm } from "react-hook-form";
-import Input from "../components/Input";
 
 const Home = () => {
   const {
@@ -130,7 +129,7 @@ const Home = () => {
               {...register("gamesPlayed", { required: plays ? true : false })}
               className="focus:outline-none focus:border-indigo-900 bg-neutral-900 border-2 border-neutral-800 h-10 rounded-md w-full px-2 mb-6"
             />
-            <GameSelect/>
+            <GameSelect />
             {errors.gamesPlayed && <span>Este campo es requerido</span>}
           </>
         )}
