@@ -19,6 +19,7 @@ const Home = () => {
       age: "",
       carreras: "",
       plays: false,
+      gamesPlayed: "",
       gameIdea: "",
     },
   });
@@ -124,12 +125,12 @@ const Home = () => {
 
         {plays && (
           <>
-            <label htmlFor="gamesPlayed">Que juegos soles jugar?</label>
+            {/* <label htmlFor="gamesPlayed">Que juegos soles jugar?</label>
             <input
               {...register("gamesPlayed", { required: plays ? true : false })}
               className="focus:outline-none focus:border-indigo-900 bg-neutral-900 border-2 border-neutral-800 h-10 rounded-md w-full px-2 mb-6"
-            />
-            <GameSelect />
+            /> */}
+            <GameSelect name="gamesPlayed" control={control} />
             {errors.gamesPlayed && <span>Este campo es requerido</span>}
           </>
         )}

@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { RadioGroup } from "@headlessui/react";
+import { useController } from "react-hook-form";
+import { useEffect } from "react";
 
 const games = [
   "Valorant",
@@ -14,22 +16,32 @@ const games = [
   "Free Fire",
 ];
 
-function GameSelect() {
+function GameSelect(props) {
   const [selectedGames, setSelectedGames] = useState([]);
+
+  const {
+    field: { value, onChange },
+  } = useController(props);
 
   const isSelected = (value) =>
     selectedGames.find((element) => element === value);
 
+  // handles selection and toggling of radio's
   const handleGameSelection = (game) => {
-    if (selectedGames.includes(game)) {
+    if (isSelected(game)) {
       const filteredSelection = selectedGames.filter(
         (alreadySelectedGame) => alreadySelectedGame !== game
       );
-      setSelectedGames(filteredSelection);
-    } else {
-      setSelectedGames([...selectedGames, game]);
+      return setSelectedGames(filteredSelection);
     }
+
+    setSelectedGames((currentValues) => [...currentValues, game]);
   };
+
+  // updates the component value when the state changes
+  useEffect(() => {
+    onChange(selectedGames);
+  }, [selectedGames]);
 
   return (
     <>
@@ -39,10 +51,11 @@ function GameSelect() {
         value={selectedGames}
         onChange={handleGameSelection}
       >
-        {games.map((game) => (
+        {games.map((game, idx) => (
           <RadioGroup.Option
             value={game.toLowerCase()}
             className="bg-neutral-900  rounded-md h-10 overflow-hidden"
+            key={idx}
           >
             {
               <span
