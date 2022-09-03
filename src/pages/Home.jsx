@@ -4,6 +4,7 @@ import GameSelect from "../components/GameSelect";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 import { useForm } from "react-hook-form";
+import Input from "../components/Input";
 
 const Home = () => {
   const {
@@ -14,6 +15,7 @@ const Home = () => {
     control,
   } = useForm({
     defaultValues: {
+      nombre: "",
       fullName: "",
       email: "",
       age: "",
@@ -52,12 +54,19 @@ const Home = () => {
           queriamos pedirte tu ayuda!{" "}
         </p>
 
+        <Input
+          label="nombre"
+          register={register}
+          errors={errors}
+          placeholder="rosa melano"
+        />
+
         <div className="relative">
           <label htmlFor="fullName">Nombre y apellido</label>
           <input
             {...register("fullName", { required: true })}
             placeholder="Rosa melano"
-            className="focus:outline-none focus:border-indigo-900 bg-neutral-900 border-2 border-neutral-800 h-10 rounded-md w-full px-2 mb-6"
+            className="focus:outline-none focus:border-indigo-900 bg-neutral-900 border-2 border-neutral-800 h-10 rounded-md w-full px-2 mb-10"
           />
 
           {errors.fullName && (
@@ -67,23 +76,26 @@ const Home = () => {
           )}
         </div>
 
-        <label htmlFor="email">Email ( Contacto ) </label>
-        <input
-          {...register("email", {
-            required: true,
-            pattern: { value: /^\S+@\S+$/i, message: "Mail invalido" },
-          })}
-          placeholder="rosamelano@gmail.com"
-          className="focus:outline-none focus:border-indigo-900 bg-neutral-900 border-2 border-neutral-800 h-10 rounded-md w-full px-2 mb-6"
-        />
+        <div className="relative">
+          <label htmlFor="email">Email ( Contacto ) </label>
+          <input
+            {...register("email", {
+              required: true,
+              pattern: { value: /^\S+@\S+$/i, message: "Mail invalido" },
+            })}
+            placeholder="rosamelano@gmail.com"
+            className="focus:outline-none focus:border-indigo-900 bg-neutral-900 border-2 border-neutral-800 h-10 rounded-md w-full px-2 mb-10"
+          />
 
-        {errors.email && (
-          <span className="">
-            {errors?.email?.message
-              ? errors?.email?.message
-              : "Campo requerido"}
-          </span>
-        )}
+          {errors.email && (
+            <span className="absolute top-16 text-sm mt-2 left-0 text-red-500">
+              {errors?.email?.message
+                ? errors?.email?.message
+                : "Campo requerido"}
+            </span>
+          )}
+        </div>
+
         <div className="relative">
           <label htmlFor="age">Edad</label>
           <input
@@ -104,6 +116,7 @@ const Home = () => {
             </span>
           )}
         </div>
+
         <div className="relative">
           <CustomSelect
             name={"carreras"}
@@ -118,7 +131,7 @@ const Home = () => {
           )}
         </div>
 
-        <div className="flex gap-4 accent-indigo-500 items-center">
+        <div className="flex gap-4 h- accent-indigo-500 items-center">
           <label htmlFor="plays">Jugas algun video juego?</label>
           <input type="checkbox" {...register("plays")} className="w-4 h-4" />
         </div>
