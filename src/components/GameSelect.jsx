@@ -45,9 +45,9 @@ function GameSelect(props) {
 
   return (
     <>
-      <label className="mb-3">Jugas alguno de estos juegos?</label>
+      <label className="inline-block my-3">Jugas alguno de estos juegos?</label>
       <RadioGroup
-        className=" flex flex-wrap gap-4 accent-indigo-500"
+        className=" flex flex-wrap gap-4 accent-indigo-500 mb-8"
         value={selectedGames}
         onChange={handleGameSelection}
       >
