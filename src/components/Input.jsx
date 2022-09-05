@@ -1,26 +1,29 @@
 import React from "react";
+import { motion } from "framer-motion";
 
-const Input = ({ label, register, errors, placeholder, validation }) => {
+const Input = ({ label, register, errors, placeholder, validate, type }) => {
   console.log(label);
   console.log(errors);
   console.log(errors[label]);
+  console.log(validate);
 
   // To Do: Implement Form validation to the component
   return (
-    <div className="relative">
-      <label className="capitaliz">{label}</label>
+    <motion.div className="relative">
+      <label className="inline-block mb-1 capitalize">{label}</label>
       <input
-        {...register(label, { required: true })}
+        type={type ? type : "text"}
+        {...register(label, { validate })}
         placeholder={placeholder}
-        className="focus:outline-none focus:border-indigo-900 bg-neutral-900 border-2 border-neutral-800 h-10 rounded-md w-full px-2 mb-10"
+        className="focus:outline-none focus:border-indigo-900 bg-neutral-900 border-2 border-neutral-800 h-10 rounded-md w-full px-2 mb-8"
       />
 
       {errors[label] && (
         <span className=" absolute top-16 text-sm mt-2 left-0 text-red-500">
-          Este campo es requerido
+          {errors[label]?.message}
         </span>
       )}
-    </div>
+    </motion.div>
   );
 };
 
