@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import Input from "../components/Input";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import { AuthContext } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const {
@@ -29,7 +30,7 @@ const Home = () => {
 
   const onSubmit = (data) => alert(JSON.stringify(data));
 
-  console.log(watch("fullName"));
+  // console.log(watch("nombre"));
   const plays = watch("plays");
 
   const postFormData = async (formData) => {
@@ -41,10 +42,6 @@ const Home = () => {
     }
   };
 
-  const { accessToken } = useContext(AuthContext);
-
-  console.log("token", accessToken);
-
   return (
     <div className="relative overflow-hidden min-h-screen h-full flex items-center justify-center bg-neutral-900 text-slate-200 py-2">
       <div className="absolute w-52 h-52 bg-purple-500 top-5 -right-20 rounded-full filter blur-2xl  opacity-10 "></div>
@@ -54,11 +51,12 @@ const Home = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="h-full md:max-w-xl px-4 py-12 flex flex-col justify-center gap-2 relative z-10"
       >
+        <Link to="/dashboard">dashboard</Link>
         <LayoutGroup>
           <motion.div layout>
             <p className="mb-4">
               Buenas! Somos un grupo de estudiantes de desarrollo de software y
-              queriamos pedirte tu ayuda!{" "}
+              queriamos pedirte tu ayuda!
             </p>
 
             <Input

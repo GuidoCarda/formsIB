@@ -2,11 +2,6 @@ import React from "react";
 import { motion } from "framer-motion";
 
 const Input = ({ label, register, errors, placeholder, validate, type }) => {
-  console.log(label);
-  console.log(errors);
-  console.log(errors[label]);
-  console.log(validate);
-
   // To Do: Implement Form validation to the component
   return (
     <motion.div className="relative">

@@ -1,16 +1,25 @@
+import { getAuth } from "firebase/auth";
 import React, { createContext, useState } from "react";
+import { useEffect } from "react";
 
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
+  const [authorizedUser, setAuthorizedUser] = useState(null);
 
-  const [auth, setAuth] = useState(false);
+  const auth = getAuth();
 
-  const data = {auth, setAuth};
+  useEffect(() => {
+    //Checkeo si en la sesion actual hay un usuario autentificado
+    auth.onAuthStateChanged((user) => {
+      setAuthorizedUser(user);
+    });
+  }, []);
 
   return (
-    <AuthContext.Provider value={data}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ authorizedUser, setAuthorizedUser }}>
+      {children}
+    </AuthContext.Provider>
   );
 };
-export default AuthProvider
-
+export default AuthProvider;
