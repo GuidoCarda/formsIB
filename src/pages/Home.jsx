@@ -51,7 +51,12 @@ const Home = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="h-full md:max-w-xl px-4 py-12 flex flex-col justify-center gap-2 relative z-10"
       >
-        <Link to="/dashboard">dashboard</Link>
+        <Link
+          to="/dashboard"
+          className="bg-indigo-900 w-fit py-1 px-4 rounded-md self-end mb-6 hover:bg-indigo-800"
+        >
+          dashboard
+        </Link>
         <LayoutGroup>
           <motion.div layout>
             <p className="mb-4">
@@ -65,7 +70,7 @@ const Home = () => {
               errors={errors}
               placeholder="rosa melano"
               validate={{
-                required: (v) => v.length > 0 || "Campo requerido",
+                required: (v) => v.trim().length > 0 || "Campo requerido",
               }}
             />
 
@@ -75,7 +80,7 @@ const Home = () => {
               errors={errors}
               placeholder="rosa melano"
               validate={{
-                required: (v) => v.length > 0 || "Campo requerido",
+                required: (v) => v.trim().length > 0 || "Campo requerido",
                 isEmail: (v) =>
                   v.match(
                     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -90,69 +95,16 @@ const Home = () => {
               type={"number"}
               placeholder="rosa melano"
               validate={{
-                required: (v) => v.length > 0 || "Campo requerido",
+                required: (v) => v.trim().length > 0 || "Campo requerido",
                 positive: (v) => parseInt(v) > 0 || "Debe ser mayor a 0",
                 lessThanTen: (v) => parseInt(v) < 100 || "Ah sos re troll",
               }}
             />
 
-            {/* <div className="relative">
-          <label htmlFor="fullName">Nombre y apellido</label>
-          <input
-            {...register("fullName", { required: true })}
-            placeholder="Rosa melano"
-            className="focus:outline-none focus:border-indigo-900 bg-neutral-900 border-2 border-neutral-800 h-10 rounded-md w-full px-2 "
-          />
-
-          {errors.fullName && (
-            <span className=" text-sm mt-2 left-0 text-red-500">
-              Este campo es requerido
-            </span>
-          )}
-        </div>
-
-        <div className="relative">
-          <label htmlFor="email">Email ( Contacto ) </label>
-          <input
-            {...register("email", {
-              required: true,
-              pattern: { value: /^\S+@\S+$/i, message: "Mail invalido" },
-            })}
-            placeholder="rosamelano@gmail.com"
-            className="focus:outline-none focus:border-indigo-900 bg-neutral-900 border-2 border-neutral-800 h-10 rounded-md w-full px-2 mb-10"
-          />
-
-          {errors.email && (
-            <span className="absolute top-16 text-sm mt-2 left-0 text-red-500">
-              {errors?.email?.message
-                ? errors?.email?.message
-                : "Campo requerido"}
-            </span>
-          )}
-        </div>
-
-        <div className="relative">
-          <label>Edad</label>
-          <input
-            {...register("age", {
-              required: true,
-              min: { value: 0, message: "Valor invalido" },
-              max: { value: 100, message: "Ah sos re troll" },
-            })}
-            placeholder="20"
-            className="focus:outline-none focus:border-indigo-900 bg-neutral-900 border-2 border-neutral-800 h-10 rounded-md w-full px-2 mb-10"
-          />
-
-          {errors.age && (
-            <span className=" absolute top-16 text-sm mt-2 left-0 text-red-500">
-              {errors.age.message
-                ? errors.age.message
-                : "Este campo es requerido"}
-            </span>
-          )}
-        </div> */}
-
             <div className="relative">
+              <label className="inline-block mb-1 capitalize">
+                Que carrera estas cursando?
+              </label>
               <CustomSelect
                 name={"carreras"}
                 control={control}
@@ -220,14 +172,25 @@ const Home = () => {
               <p>Tene en cuenta que debe ser un videojuego en 3D.</p>
             </div>
 
-            <div>
+            {/* <div>
               <label htmlFor="gameIdea">Game idea</label>
               <textarea
                 placeholder="Un videojuego ambientado en xxx que se trate de xxx y que el objetivo sea xxx ... Vo me entende, algo asi. Iluminanos"
                 {...register("gameIdea", { required: true })}
                 className="text-sm focus:outline-none focus:border-indigo-900  bg-neutral-900 border-2 border-neutral-800 rounded-md h-32 w-full p-2 resize-none "
               />
-            </div>
+            </div> */}
+
+            <Input
+              label="game idea"
+              register={register}
+              errors={errors}
+              type={"textbox"}
+              placeholder="Un videojuego ambientado en xxx que se trate de xxx y que el objetivo sea xxx ... Vo me entende, algo asi. Iluminanos"
+              validate={{
+                required: (v) => v.trim().length > 0 || "Campo requerido",
+              }}
+            />
 
             <button
               type="submit"
