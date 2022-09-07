@@ -33,6 +33,8 @@ const Home = () => {
   // console.log(watch("nombre"));
   const plays = watch("plays");
 
+  console.log(errors.carreras);
+
   const postFormData = async (formData) => {
     try {
       const docRef = await addDoc(collection(db, "survey"), formData);
@@ -82,9 +84,11 @@ const Home = () => {
               validate={{
                 required: (v) => v.trim().length > 0 || "Campo requerido",
                 isEmail: (v) =>
-                  v.match(
-                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-                  ) || "No es un email valido",
+                  v
+                    .trim()
+                    .match(
+                      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                    ) || "No es un email valido",
               }}
             />
 
