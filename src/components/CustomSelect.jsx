@@ -15,6 +15,8 @@ const CustomSelect = (props) => {
     field: { value, onChange },
   } = useController(props);
 
+  // console.log(value);
+
   return (
     <Listbox
       className="relative mb-10 z-10"

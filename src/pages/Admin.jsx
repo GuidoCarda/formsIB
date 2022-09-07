@@ -27,7 +27,6 @@ const Admin = () => {
     } 
 }*/
   //REDIRECCION DE PAGINA
-
   const navigate = useNavigate();
 
   //PRUEBA DE AUTENTICACIONES

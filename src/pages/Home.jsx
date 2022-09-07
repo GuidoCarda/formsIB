@@ -116,8 +116,8 @@ const Home = () => {
               ></CustomSelect>
 
               {errors.carreras && (
-                <span className=" absolute top-10 z-0 text-sm mt-2 left-0 text-red-500">
-                  Este campo es requerido
+                <span className=" absolute -bottom-6 z-0 text-sm mt-2 left-0 text-red-500">
+                  Campo es requerido
                 </span>
               )}
             </div>
