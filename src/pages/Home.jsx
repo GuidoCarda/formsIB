@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState } from "react";
 import CustomSelect from "../components/CustomSelect";
 import GameSelect from "../components/GameSelect";
 import { collection, addDoc } from "firebase/firestore";
@@ -6,41 +6,56 @@ import { db } from "../firebase/firebase";
 import { useForm } from "react-hook-form";
 import Input from "../components/Input";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
-import { AuthContext } from "../context/AuthContext";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 const Home = () => {
+  const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const defaultValues = {
+    nombre: "",
+    email: "",
+    edad: "",
+    carreras: "",
+    plays: false,
+    gamesPlayed: "",
+    idea: "",
+  };
+
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
     control,
+    reset,
   } = useForm({
-    defaultValues: {
-      nombre: "",
-      email: "",
-      edad: "",
-      carreras: "",
-      plays: false,
-      gamesPlayed: "",
-      gameIdea: "",
-    },
+    defaultValues,
   });
 
-  const onSubmit = (data) => alert(JSON.stringify(data));
+  const onSubmit = (data) => {
+    setIsSubmitting(true);
+    postFormData(data);
+  };
+
+  useEffect(() => {}, [submitted]);
 
   // console.log(watch("nombre"));
   const plays = watch("plays");
 
-  console.log(errors.carreras);
-
   const postFormData = async (formData) => {
     try {
       const docRef = await addDoc(collection(db, "survey"), formData);
-      console.log("documment written with ID " + docRef.id);
+
+      setTimeout(() => {
+        setSubmitted(true);
+        reset(defaultValues);
+        console.log("documment written with ID " + docRef.id);
+      }, 2000);
     } catch (e) {
       console.log(e);
+      alert(e);
     }
   };
 
@@ -49,134 +64,133 @@ const Home = () => {
       <div className="absolute w-52 h-52 bg-purple-500 top-5 -right-20 rounded-full filter blur-2xl  opacity-10 "></div>
       <div className="absolute w-96 h-96 bg-teal-500 top-29 -left-40 rounded-full filter blur-2xl opacity-10  "></div>
       <div className="absolute w-96 h-96 bg-violet-500 -bottom-2 -right-20 rounded-full filter  blur-2xl opacity-10 "></div>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="h-full md:max-w-xl px-4 py-12 flex flex-col justify-center gap-2 relative z-10"
-      >
-        <Link
-          to="/dashboard"
-          className="bg-indigo-900 w-fit py-1 px-4 rounded-md self-end mb-6 hover:bg-indigo-800"
+
+      {submitted && <RenderSuccessScreen />}
+
+      {!submitted && (
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="h-full md:max-w-xl px-4 py-12 flex flex-col justify-center gap-2 relative z-10"
         >
-          dashboard
-        </Link>
-        <LayoutGroup>
-          <motion.div layout>
-            <p className="mb-4">
-              Buenas! Somos un grupo de estudiantes de desarrollo de software y
-              queriamos pedirte tu ayuda!
-            </p>
+          <Link
+            to="/dashboard"
+            className="bg-indigo-900 w-fit py-1 px-4 rounded-md self-end mb-6 hover:bg-indigo-800"
+          >
+            dashboard
+          </Link>
+          <LayoutGroup>
+            <motion.div layout>
+              <p className="mb-4">
+                Buenas! Somos un grupo de estudiantes de desarrollo de software
+                y queriamos pedirte tu ayuda!
+              </p>
 
-            <Input
-              label="nombre"
-              register={register}
-              errors={errors}
-              placeholder="rosa melano"
-              validate={{
-                required: (v) => v.trim().length > 0 || "Campo requerido",
-              }}
-            />
-
-            <Input
-              label="email"
-              register={register}
-              errors={errors}
-              placeholder="rosa melano"
-              validate={{
-                required: (v) => v.trim().length > 0 || "Campo requerido",
-                isEmail: (v) =>
-                  v
-                    .trim()
-                    .match(
-                      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-                    ) || "No es un email valido",
-              }}
-            />
-
-            <Input
-              label="edad"
-              register={register}
-              errors={errors}
-              type={"number"}
-              placeholder="rosa melano"
-              validate={{
-                required: (v) => v.trim().length > 0 || "Campo requerido",
-                positive: (v) => parseInt(v) > 0 || "Debe ser mayor a 0",
-                lessThanTen: (v) => parseInt(v) < 100 || "Ah sos re troll",
-              }}
-            />
-
-            <div className="relative">
-              <label className="inline-block mb-1 capitalize">
-                Que carrera estas cursando?
-              </label>
-              <CustomSelect
-                name={"carreras"}
-                control={control}
-                rules={{ required: true }}
-              ></CustomSelect>
-
-              {errors.carreras && (
-                <span className=" absolute -bottom-6 z-0 text-sm mt-2 left-0 text-red-500">
-                  Campo es requerido
-                </span>
-              )}
-            </div>
-
-            <div className="flex gap-4 h- accent-indigo-500 items-center">
-              <label>Jugas algun video juego?</label>
-              <input
-                type="checkbox"
-                {...register("plays")}
-                className="w-4 h-4"
+              <Input
+                label="nombre"
+                register={register}
+                errors={errors}
+                placeholder="rosa melano"
+                validate={{
+                  required: (v) => v.trim().length > 0 || "Campo requerido",
+                }}
               />
-            </div>
-          </motion.div>
 
-          <AnimatePresence>
-            {plays && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                layout
-                className="relative"
-              >
-                {/* <label htmlFor="gamesPlayed">Que juegos soles jugar?</label>
-            <input
-              {...register("gamesPlayed", { required: plays ? true : false })}
-              className="focus:outline-none focus:border-indigo-900 bg-neutral-900 border-2 border-neutral-800 h-10 rounded-md w-full px-2 mb-6"
-            /> */}
-                <GameSelect
-                  name="gamesPlayed"
+              <Input
+                label="email"
+                register={register}
+                errors={errors}
+                placeholder="rosa melano"
+                validate={{
+                  required: (v) => v.trim().length > 0 || "Campo requerido",
+                  isEmail: (v) =>
+                    v
+                      .trim()
+                      .match(
+                        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                      ) || "No es un email valido",
+                }}
+              />
+
+              <Input
+                label="edad"
+                register={register}
+                errors={errors}
+                type={"number"}
+                placeholder="rosa melano"
+                validate={{
+                  required: (v) => v.trim().length > 0 || "Campo requerido",
+                  positive: (v) => parseInt(v) > 0 || "Debe ser mayor a 0",
+                  lessThanTen: (v) => parseInt(v) < 100 || "Ah sos re troll",
+                }}
+              />
+
+              <div className="relative">
+                <label className="inline-block mb-1 capitalize">
+                  Que carrera estas cursando?
+                </label>
+                <CustomSelect
+                  name={"carreras"}
                   control={control}
-                  rules={plays && { required: true }}
-                />
-                {errors.gamesPlayed && (
-                  <span className="absolute bottom-1 text-sm left-0 text-red-500">
-                    Este campo es requerido
+                  rules={{ required: true }}
+                ></CustomSelect>
+
+                {errors.carreras && (
+                  <span className=" absolute -bottom-6 z-0 text-sm mt-2 left-0 text-red-500">
+                    Campo es requerido
                   </span>
                 )}
-              </motion.div>
-            )}
-          </AnimatePresence>
+              </div>
 
-          <motion.div layout>
-            <div className="text-left flex flex-col gap-2 my-4">
-              <p>
-                Como proyecto final de programacion debemos llevar a cabo el
-                desarrollo de un videojuego y nos encontramos con que no tenemos
-                ni idea de cual podria ser la tematica del mismo.
-              </p>
+              <div className="flex gap-4 h- accent-indigo-500 items-center">
+                <label>Jugas algun video juego?</label>
+                <input
+                  type="checkbox"
+                  {...register("plays")}
+                  className="w-4 h-4"
+                />
+              </div>
+            </motion.div>
 
-              <p>
-                Por eso necesitamos tu ayuda y desarrollamos este cuestionario
-                para que nos puedas dejarnos tus ideas.
-              </p>
+            <AnimatePresence>
+              {plays && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  layout
+                  className="relative"
+                >
+                  <GameSelect
+                    name="gamesPlayed"
+                    control={control}
+                    rules={plays && { required: true }}
+                  />
+                  {errors.gamesPlayed && (
+                    <span className="absolute bottom-1 text-sm left-0 text-red-500">
+                      Este campo es requerido
+                    </span>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
 
-              <p>Tene en cuenta que debe ser un videojuego en 3D.</p>
-            </div>
+            <motion.div layout>
+              <div className="text-left flex flex-col gap-2 my-4">
+                <p>
+                  Como proyecto final de programacion debemos llevar a cabo el
+                  desarrollo de un videojuego y nos encontramos con que no
+                  tenemos ni idea de cual podria ser la tematica del mismo.
+                </p>
 
-            {/* <div>
+                <p>
+                  Por eso necesitamos tu ayuda y desarrollamos este cuestionario
+                  para que nos puedas dejarnos tus ideas.
+                </p>
+
+                <p>Tene en cuenta que debe ser un videojuego en 3D.</p>
+              </div>
+
+              {/* <div>
               <label htmlFor="gameIdea">Game idea</label>
               <textarea
                 placeholder="Un videojuego ambientado en xxx que se trate de xxx y que el objetivo sea xxx ... Vo me entende, algo asi. Iluminanos"
@@ -185,28 +199,44 @@ const Home = () => {
               />
             </div> */}
 
-            <Input
-              label="game idea"
-              register={register}
-              errors={errors}
-              type={"textbox"}
-              placeholder="Un videojuego ambientado en xxx que se trate de xxx y que el objetivo sea xxx ... Vo me entende, algo asi. Iluminanos"
-              validate={{
-                required: (v) => v.trim().length > 0 || "Campo requerido",
-              }}
-            />
+              <Input
+                label="idea"
+                register={register}
+                errors={errors}
+                type={"textbox"}
+                placeholder="Un videojuego ambientado en xxx que se trate de xxx y que el objetivo sea xxx ... Vo me entende, algo asi. Iluminanos"
+                validate={{
+                  required: (v) => v.trim().length > 0 || "Campo requerido",
+                }}
+              />
 
-            <button
-              type="submit"
-              className="bg-indigo-700 w-full py-2 rounded-md mt-5 text-white font-bold"
-            >
-              Enviar
-            </button>
-          </motion.div>
-        </LayoutGroup>
-      </form>
+              <button
+                type="submit"
+                className={`bg-indigo-700 w-full py-2 rounded-md mt-5 text-white font-bold ${
+                  isSubmitting
+                    ? "bg-indigo-700/40 text-white/40 cursor-wait"
+                    : ""
+                }`}
+                disabled={isSubmitting}
+              >
+                {!isSubmitting ? "Enviar" : "Enviando..."}
+              </button>
+            </motion.div>
+          </LayoutGroup>
+        </form>
+      )}
     </div>
   );
 };
 
 export default Home;
+
+const RenderSuccessScreen = () => {
+  return (
+    <div className="grid place-items-center h-full w-full bg-neutral-900">
+      <h1 className="text-white text-4xl text-center px-4">
+        Gracias por completar el formulario
+      </h1>
+    </div>
+  );
+};

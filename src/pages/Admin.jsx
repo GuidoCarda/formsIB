@@ -29,24 +29,6 @@ const Admin = () => {
   //REDIRECCION DE PAGINA
   const navigate = useNavigate();
 
-  //PRUEBA DE AUTENTICACIONES
-  /* const authMail = getAuth();
-const singIn = () => {
-    signInWithEmailAndPassword(auth, email, psw)
-    .then((userCredential) => {
-      // Signed in
-      const user = userCredential.user;
-      if (user.accessToken != null){
-        navigate("/dashboard")
-        console.log('Nueva pagina')
-      }
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-    });
-}
- */
   //UTILIZACION DE CONTEXTO
   const { authorizedUser, setAuthorizedUser } = useContext(AuthContext); //Se importa el contexto
 
@@ -128,7 +110,7 @@ const singIn = () => {
       </form>
       <Link
         to="/"
-        className="text-indigo-400 mt-4 text-sm hover:bg-indigo-700/20 hover:text-indigo-200 py-1 px-2 rounded-md"
+        className="text-indigo-400 mt-4 text-sm hover:bg-indigo-700/20 hover:text-indigo-200 py-1 px-2 rounded-md z-10"
       >
         volver a la pagina de formulario
       </Link>
