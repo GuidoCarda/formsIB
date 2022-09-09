@@ -6,7 +6,40 @@ import { Link } from "react-router-dom";
 import { db } from "../firebase/firebase";
 
 const DashBoard = () => {
-  const [dashboardData, setDashboardData] = useState([]);
+  const [dashboardData, setDashboardData] = useState([
+    {
+      nombre: "guido",
+      edad: 21,
+      email: "guidocarda@hotmail.com",
+      gameIdea:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc neque ante, maximus eget diam vel, gravida fermentum felis. Nulla at quam auctor, volutpat dui et, dignissim lorem. Vivamus in justo sed justo semper laoreet. Nullam consectetur quam at sollicitudin dignissim. ",
+      plays: true,
+    },
+    {
+      nombre: "Joanco",
+      edad: 21,
+      email: "guidocarda@hotmail.com",
+      gameIdea:
+        "Nam luctus eu erat vitae cursus. Proin maximus sagittis mi scelerisque dignissim. Ut vitae pulvinar nulla, at molestie dui. Nam vulputate felis magna, eget viverra nulla sollicitudin et. Nullam pulvinar massa erat, mollis ultricies nisl aliquet ut. Maecenas luctus aliquet tristique. Vestibulum nec blandit orci. Curabitur nec euismod dolor. Donec vel est quis leo vulputate finibus. Vestibulum sed tincidunt lacus. Donec ullamcorper diam ligula. Nulla ut urna non enim cursus pellentesque a non erat.",
+      plays: false,
+    },
+    {
+      nombre: "Sorento",
+      edad: 21,
+      email: "guidocarda@hotmail.com",
+      gameIdea:
+        "Eget viverra nulla sollicitudin et. Nullam pulvinar massa erat, mollis ultricies nisl aliquet ut. Maecenas luctus aliquet tristique. Vestibulum nec blandit orci. Curabitur nec euismod dolor. Donec vel est quis leo vulputate finibus. Vestibulum sed tincidunt lacus. Donec ullamcorper diam ligula. Nulla ut urna non enim cursus pellentesque a non erat.",
+      plays: false,
+    },
+    {
+      nombre: "guido",
+      edad: 21,
+      email: "guidocarda@hotmail.com",
+      gameIdea:
+        "Eget viverra nulla sollicitudin et. Nullam pulvinar massa erat, mollis ultricies nisl aliquet ut. Maecenas luctus aliquet tristique. Vestibulum nec blandit orci. Curabitur nec euismod dolor. Donec vel est quis leo vulputate finibus. Vestibulum sed tincidunt lacus. Donec ullamcorper diam ligula. Nulla ut urna non enim cursus pellentesque a non erat.",
+      plays: true,
+    },
+  ]);
 
   const auth = getAuth();
   const handleSignOut = () => {
@@ -19,22 +52,22 @@ const DashBoard = () => {
       });
   };
 
-  const getData = async () => {
-    const querySnapshot = await getDocs(collection(db, "survey"));
-    const surveyData = querySnapshot.docs.map((doc) => doc.data());
-    setDashboardData(surveyData);
-  };
+  // const getData = async () => {
+  //   const querySnapshot = await getDocs(collection(db, "survey"));
+  //   const surveyData = querySnapshot.docs.map((doc) => doc.data());
+  //   setDashboardData(surveyData);
+  // };
 
-  useEffect(() => {
-    getData();
-  }, []);
+  // useEffect(() => {
+  //   getData();
+  // }, []);
 
   return (
     <div className="relative overflow-hidden min-h-screen h-full flex flex-col bg-neutral-900 text-slate-200 py-2 px-6">
       <div className="absolute w-52 h-52 bg-purple-500 top-5 -right-20 rounded-full filter blur-2xl  opacity-10 "></div>
       <div className="absolute w-96 h-96 bg-teal-500 top-29 -left-40 rounded-full filter blur-2xl opacity-10  "></div>
       <div className="absolute w-96 h-96 bg-violet-500 -bottom-2 -right-20 rounded-full filter  blur-2xl opacity-10 "></div>
-      <div className="w-full md:max-w-screen-xl border-2 border-white/20 mx-auto z-10">
+      <div className="w-full md:max-w-screen-xl mx-auto z-10">
         <nav className="flex py-4">
           <Link
             to="/"
@@ -74,8 +107,8 @@ const DashBoard = () => {
                 </div>
               ))}
           </div>
-          <h1 className="mb-6 text-4xl">Más Jugados</h1>
-          <section className="mt-4 grid md:grid-cols-2 gap-4">
+          {/* <h1 className="mb-6 text-4xl">Más Jugados</h1>
+          <section className="mt-4 grid md:grid-cols-2 gap-4 mb-10">
             <div className="bg-neutral-800 rounded-md p-4">
               <div className="flex justify-between text-neutral-400 pb-2 mb-2">
                 <span>Valorant</span>
@@ -105,16 +138,68 @@ const DashBoard = () => {
               </div>
               <ul className="flex flex-col gap-4">
                 {dashboardData &&
-                  dashboardData.map(({ fullName, age, email, gameIdea }, i) => (
+                  dashboardData.map(({ nombre, edad, email, gameIdea }, i) => (
                     <li>
                       <div key={i} className="flex justify-between">
-                        <p>{fullName}</p>
-                        <p>{age}</p>
+                        <p>{nombre}</p>
+                        <p>{edad}</p>
                         <p>{email}</p>
                         <p>{gameIdea}</p>
                       </div>
                     </li>
                   ))}
+              </ul>
+            </div>
+          </section> */}
+
+          <h1 className="mb-6 text-4xl">Ideas</h1>
+          <section className="my-4 ">
+            <div className="bg-neutral-800 rounded-md p-4">
+              <ul className="flex flex-col gap-4">
+                {dashboardData &&
+                  dashboardData.map(
+                    ({ nombre, edad, email, gameIdea, plays }, i) => (
+                      <li className="border-b-2 border-white/10 last-of-type:border-0 pb-4 last-of-type:pb-0">
+                        <div key={i} className="flex flex-col  justify-between">
+                          <div className="flex items-center gap-2">
+                            <span className="block h-12 w-12 rounded-lg bg-slate-500" />
+                            <div>
+                              <h4 className="capitalize  text-xl">{nombre}</h4>
+                              <span className="text-sm relative bottom-1.5 text-gray-400">
+                                {edad} años
+                              </span>
+                            </div>
+                            {plays ? (
+                              <span className="py-1  px-4 ml-auto rounded-md bg-indigo-800/50 text-indigo-400">
+                                juega
+                              </span>
+                            ) : null}
+                          </div>
+                          <p className="text-slate-290 mt-4">{gameIdea}</p>
+                          {plays ? (
+                            <div className="mt-4">
+                              <span className="text-sm text-gray-400 ">
+                                Jugados:{" "}
+                              </span>
+
+                              <ul className="flex flex-wrap gap-2 mt-1">
+                                {["valorant", "csgo", "lol", "gta v"].map(
+                                  (value, idx) => (
+                                    <li
+                                      key={idx}
+                                      className="py-1 text-sm px-4 rounded-md bg-indigo-800/50 text-indigo-300"
+                                    >
+                                      {value}
+                                    </li>
+                                  )
+                                )}
+                              </ul>
+                            </div>
+                          ) : null}
+                        </div>
+                      </li>
+                    )
+                  )}
               </ul>
             </div>
           </section>
@@ -125,3 +210,27 @@ const DashBoard = () => {
 };
 
 export default DashBoard;
+
+{
+  /* <div className="bg-neutral-800 rounded-md p-4">
+  <div className="flex justify-between text-neutral-400 pb-2 mb-2">
+    <span>Nombre</span>
+    <span>Edad</span>
+    <span>Email</span>
+    <span>Idea</span>
+  </div>
+  <ul className="flex flex-col gap-4">
+    {dashboardData &&
+      dashboardData.map(({ nombre, edad, email, gameIdea }, i) => (
+        <li>
+          <div key={i} className="flex justify-between">
+            <p>{nombre}</p>
+            <p>{edad}</p>
+            <p>{email}</p>
+            <p>{gameIdea}</p>
+          </div>
+        </li>
+      ))}
+  </ul>
+</div>; */
+}
