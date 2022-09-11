@@ -7,15 +7,14 @@ import DashBoard from "./pages/Dashboard";
 import Home from "./pages/Home";
 import ProtectedRoute from "./pages/ProtectedRoute";
 
-
 function App() {
   return (
     <AuthProvider>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/admin" element={<Admin/>}/>
-        <Route element={<ProtectedRoute/>}>
-          <Route path="/dashboard" element={<DashBoard/>}/>
+        <Route path="/admin" element={<Admin />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/dashboard" element={<DashBoard />} />
         </Route>
       </Routes>
     </AuthProvider>

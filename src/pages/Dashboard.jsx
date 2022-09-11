@@ -4,42 +4,46 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { db } from "../firebase/firebase";
+import { motion } from "framer-motion";
+
+const placeholderData = [
+  {
+    nombre: "guido",
+    edad: 21,
+    email: "guidocarda@hotmail.com",
+    gameIdea:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc neque ante, maximus eget diam vel, gravida fermentum felis. Nulla at quam auctor, volutpat dui et, dignissim lorem. Vivamus in justo sed justo semper laoreet. Nullam consectetur quam at sollicitudin dignissim. ",
+    plays: true,
+  },
+  {
+    nombre: "Joanco",
+    edad: 21,
+    email: "guidocarda@hotmail.com",
+    gameIdea:
+      "Nam luctus eu erat vitae cursus. Proin maximus sagittis mi scelerisque dignissim. Ut vitae pulvinar nulla, at molestie dui. Nam vulputate felis magna, eget viverra nulla sollicitudin et. Nullam pulvinar massa erat, mollis ultricies nisl aliquet ut. Maecenas luctus aliquet tristique. Vestibulum nec blandit orci. Curabitur nec euismod dolor. Donec vel est quis leo vulputate finibus. Vestibulum sed tincidunt lacus. Donec ullamcorper diam ligula. Nulla ut urna non enim cursus pellentesque a non erat.",
+    plays: false,
+  },
+  {
+    nombre: "Sorento",
+    edad: 21,
+    email: "guidocarda@hotmail.com",
+    gameIdea:
+      "Eget viverra nulla sollicitudin et. Nullam pulvinar massa erat, mollis ultricies nisl aliquet ut. Maecenas luctus aliquet tristique. Vestibulum nec blandit orci. Curabitur nec euismod dolor. Donec vel est quis leo vulputate finibus. Vestibulum sed tincidunt lacus. Donec ullamcorper diam ligula. Nulla ut urna non enim cursus pellentesque a non erat.",
+    plays: false,
+  },
+  {
+    nombre: "guido",
+    edad: 21,
+    email: "guidocarda@hotmail.com",
+    gameIdea:
+      "Eget viverra nulla sollicitudin et. Nullam pulvinar massa erat, mollis ultricies nisl aliquet ut. Maecenas luctus aliquet tristique. Vestibulum nec blandit orci. Curabitur nec euismod dolor. Donec vel est quis leo vulputate finibus. Vestibulum sed tincidunt lacus. Donec ullamcorper diam ligula. Nulla ut urna non enim cursus pellentesque a non erat.",
+    plays: true,
+  },
+];
 
 const DashBoard = () => {
-  const [dashboardData, setDashboardData] = useState([
-    {
-      nombre: "guido",
-      edad: 21,
-      email: "guidocarda@hotmail.com",
-      gameIdea:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc neque ante, maximus eget diam vel, gravida fermentum felis. Nulla at quam auctor, volutpat dui et, dignissim lorem. Vivamus in justo sed justo semper laoreet. Nullam consectetur quam at sollicitudin dignissim. ",
-      plays: true,
-    },
-    {
-      nombre: "Joanco",
-      edad: 21,
-      email: "guidocarda@hotmail.com",
-      gameIdea:
-        "Nam luctus eu erat vitae cursus. Proin maximus sagittis mi scelerisque dignissim. Ut vitae pulvinar nulla, at molestie dui. Nam vulputate felis magna, eget viverra nulla sollicitudin et. Nullam pulvinar massa erat, mollis ultricies nisl aliquet ut. Maecenas luctus aliquet tristique. Vestibulum nec blandit orci. Curabitur nec euismod dolor. Donec vel est quis leo vulputate finibus. Vestibulum sed tincidunt lacus. Donec ullamcorper diam ligula. Nulla ut urna non enim cursus pellentesque a non erat.",
-      plays: false,
-    },
-    {
-      nombre: "Sorento",
-      edad: 21,
-      email: "guidocarda@hotmail.com",
-      gameIdea:
-        "Eget viverra nulla sollicitudin et. Nullam pulvinar massa erat, mollis ultricies nisl aliquet ut. Maecenas luctus aliquet tristique. Vestibulum nec blandit orci. Curabitur nec euismod dolor. Donec vel est quis leo vulputate finibus. Vestibulum sed tincidunt lacus. Donec ullamcorper diam ligula. Nulla ut urna non enim cursus pellentesque a non erat.",
-      plays: false,
-    },
-    {
-      nombre: "guido",
-      edad: 21,
-      email: "guidocarda@hotmail.com",
-      gameIdea:
-        "Eget viverra nulla sollicitudin et. Nullam pulvinar massa erat, mollis ultricies nisl aliquet ut. Maecenas luctus aliquet tristique. Vestibulum nec blandit orci. Curabitur nec euismod dolor. Donec vel est quis leo vulputate finibus. Vestibulum sed tincidunt lacus. Donec ullamcorper diam ligula. Nulla ut urna non enim cursus pellentesque a non erat.",
-      plays: true,
-    },
-  ]);
+  const [dashboardData, setDashboardData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const auth = getAuth();
   const handleSignOut = () => {
@@ -52,15 +56,16 @@ const DashBoard = () => {
       });
   };
 
-  // const getData = async () => {
-  //   const querySnapshot = await getDocs(collection(db, "survey"));
-  //   const surveyData = querySnapshot.docs.map((doc) => doc.data());
-  //   setDashboardData(surveyData);
-  // };
+  const getData = async () => {
+    const querySnapshot = await getDocs(collection(db, "survey"));
+    const surveyData = querySnapshot.docs.map((doc) => doc.data());
+    setDashboardData(surveyData);
+    setLoading(false);
+  };
 
-  // useEffect(() => {
-  //   getData();
-  // }, []);
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <div className="relative overflow-hidden min-h-screen h-full flex flex-col bg-neutral-900 text-slate-200 py-2 px-6">
@@ -71,7 +76,7 @@ const DashBoard = () => {
         <nav className="flex py-4">
           <Link
             to="/"
-            className="bg-neutral-800/60  text-white py-1 px-4 rounded-md "
+            className="bg-neutral-800/60  text-white py-1 px-4 rounded-md"
           >
             home
           </Link>
@@ -153,24 +158,43 @@ const DashBoard = () => {
           </section> */}
 
           <h1 className="mb-6 text-4xl">Ideas</h1>
-          <section className="my-4 ">
-            <div className="bg-neutral-800 rounded-md p-4">
+          <section className="my-4 md:grid md:grid-cols-4 md:gap-4">
+            <div className="bg-neutral-800 rounded-md p-4 col-span-3">
+              {loading && (
+                <>
+                  <h2 className="text-xl text-center">Cargando...!</h2>
+                </>
+              )}
+              {!loading && dashboardData.length == 0 && (
+                <>
+                  <h2 className="text-xl">Lo sentimos!</h2>
+                  <p className="text-neutral-400">Aun no hay respuestas</p>
+                </>
+              )}
               <ul className="flex flex-col gap-4">
                 {dashboardData &&
                   dashboardData.map(
-                    ({ nombre, edad, email, gameIdea, plays }, i) => (
-                      <li className="border-b-2 border-white/10 last-of-type:border-0 pb-4 last-of-type:pb-0">
+                    (
+                      { name, age, plays, gamesPlayed, carreras, gameIdea },
+                      i
+                    ) => (
+                      <motion.li
+                        className="border-b-2 border-white/5 last-of-type:border-0 pb-4 last-of-type:pb-0"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: i * 0.3 }}
+                      >
                         <div key={i} className="flex flex-col  justify-between">
                           <div className="flex items-center gap-2">
-                            <span className="block h-12 w-12 rounded-lg bg-slate-500" />
+                            <span className="block h-12 w-12 rounded-md bg-slate-500" />
                             <div>
-                              <h4 className="capitalize  text-xl">{nombre}</h4>
+                              <h4 className="capitalize  text-xl">{name}</h4>
                               <span className="text-sm relative bottom-1.5 text-gray-400">
-                                {edad} años
+                                {age} años
                               </span>
                             </div>
                             {plays ? (
-                              <span className="py-1  px-4 ml-auto rounded-md bg-indigo-800/50 text-indigo-400">
+                              <span className="py-1  px-4 ml-auto rounded-md bg-indigo-800/50 text-indigo-400 self-start">
                                 juega
                               </span>
                             ) : null}
@@ -183,7 +207,7 @@ const DashBoard = () => {
                               </span>
 
                               <ul className="flex flex-wrap gap-2 mt-1">
-                                {["valorant", "csgo", "lol", "gta v"].map(
+                                {/* {["valorant", "csgo", "lol", "gta v"].map(
                                   (value, idx) => (
                                     <li
                                       key={idx}
@@ -192,16 +216,26 @@ const DashBoard = () => {
                                       {value}
                                     </li>
                                   )
-                                )}
+                                )} */}
+                                {plays &&
+                                  gamesPlayed.map((game, idx) => (
+                                    <li
+                                      key={idx}
+                                      className="py-1 text-sm px-4 rounded-md bg-indigo-800/50 text-indigo-300"
+                                    >
+                                      {game}
+                                    </li>
+                                  ))}
                               </ul>
                             </div>
                           ) : null}
                         </div>
-                      </li>
+                      </motion.li>
                     )
                   )}
               </ul>
             </div>
+            <div className="bg-neutral-800 rounded-md p-4 h-20 hidden md:block"></div>
           </section>
         </div>
       </div>

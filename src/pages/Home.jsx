@@ -59,6 +59,14 @@ const Home = () => {
     }
   };
 
+  // Temp functions
+  /////////////////////////////////////
+  const toggleSubmitted = () => {
+    setSubmitted((prev) => !prev);
+    setIsSubmitting((prev) => !prev);
+  };
+  ////////////////////////////////////
+
   return (
     <div
       className={`relative overflow-hidden min-h-screen h-full flex items-center justify-center bg-neutral-900 text-slate-200 py-2`}
@@ -67,7 +75,7 @@ const Home = () => {
       <div className="absolute w-96 h-96 bg-teal-500 top-29 -left-40 rounded-full filter blur-2xl opacity-10  "></div>
       <div className="absolute w-96 h-96 bg-violet-500 -bottom-2 -right-20 rounded-full filter  blur-2xl opacity-10 "></div>
 
-      {submitted && <RenderSuccessScreen />}
+      {submitted && <RenderSuccessScreen onClick={toggleSubmitted} />}
 
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -224,7 +232,7 @@ const Home = () => {
 
 export default Home;
 
-const RenderSuccessScreen = () => {
+const RenderSuccessScreen = ({ onClick }) => {
   return (
     <motion.div
       className="fixed inset-0 z-20 grid place-items-center h-full w-full bg-neutral-900 "
@@ -234,6 +242,12 @@ const RenderSuccessScreen = () => {
       <h1 className="text-white text-4xl text-center px-4">
         Gracias por completar el formulario
       </h1>
+      <button
+        onClick={onClick}
+        className="bg-indigo-900 text-white py-1 px-4 rounded-md mt-4"
+      >
+        Home
+      </button>
     </motion.div>
   );
 };
