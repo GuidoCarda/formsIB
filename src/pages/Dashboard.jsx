@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { db } from "../firebase/firebase";
 import { motion } from "framer-motion";
 import RepliesListContainer from "../components/RepliesListContainer";
+import { carreras } from "../components/CustomSelect";
 
 const placeholderData = [
   {
@@ -103,20 +104,20 @@ const DashBoard = () => {
                 <p className="font-semibold">30</p>
               </div>
             </div>
-            {Array(5)
-              .fill("")
-              .map((_, idx) => (
-                <div
-                  key={idx}
-                  className="h-20 bg-neutral-800 rounded-md flex items-center gap-4 p-4"
-                >
-                  <span className="bg-indigo-800 h-12 w-12 block rounded md"></span>
-                  <div>
-                    <h3 className="relative top-1 text-neutral-400">Turismo</h3>
-                    <p className="font-semibold">30</p>
-                  </div>
+            {carreras.map((carrera) => (
+              <div
+                key={carrera.id}
+                className="h-20 bg-neutral-800 rounded-md flex items-center gap-4 p-4"
+              >
+                <span className="bg-indigo-800 h-12 w-12 block rounded md"></span>
+                <div>
+                  <h3 className="relative top-1 text-neutral-400">
+                    {carrera.name}
+                  </h3>
+                  <p className="font-semibold">30</p>
                 </div>
-              ))}
+              </div>
+            ))}
           </div>
           {/* <h1 className="mb-6 text-4xl">Más Jugados</h1>
           <section className="mt-4 grid md:grid-cols-2 gap-4 mb-10">
@@ -168,7 +169,18 @@ const DashBoard = () => {
             <div className="bg-neutral-800 rounded-md p-4 col-span-3">
               <RepliesListContainer replies={dashboardData} loading={loading} />
             </div>
-            <div className="bg-neutral-800 rounded-md p-4 h-20 hidden md:block"></div>
+            <div className="bg-neutral-800 rounded-md p-4 h-min hidden md:block">
+              <h2 className="text-2xl mb-4">Resumen</h2>
+              {dashboardData.lenght !== 0 && !loading && (
+                <>
+                  <p>{dashboardData.length} respuestas</p>
+                  <p>
+                    {dashboardData.filter((value) => value.plays).length} juegan
+                    videojuegos
+                  </p>
+                </>
+              )}
+            </div>
           </section>
         </div>
       </div>

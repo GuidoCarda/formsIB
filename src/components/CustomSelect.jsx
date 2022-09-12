@@ -2,7 +2,7 @@ import { Listbox, Transition } from "@headlessui/react";
 import React from "react";
 import { useController } from "react-hook-form";
 
-const carreras = [
+export const carreras = [
   { id: 1, name: "Desarrollo de software" },
   { id: 2, name: "Turismo" },
   { id: 3, name: "Hoteleria" },
@@ -10,6 +10,7 @@ const carreras = [
   { id: 5, name: "Traductorado" },
   { id: 6, name: "Recursos Humanos" },
 ];
+
 const CustomSelect = (props) => {
   const {
     field: { value, onChange },

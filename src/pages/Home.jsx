@@ -48,8 +48,6 @@ const Home = () => {
     postFormData(parsedData);
   };
 
-  useEffect(() => {}, [submitted]);
-
   const plays = watch("plays");
 
   const postFormData = async (formData) => {
@@ -75,6 +73,8 @@ const Home = () => {
   };
   ////////////////////////////////////
 
+  if (submitted) return <RenderSuccessScreen onClick={toggleSubmitted} />;
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -85,8 +85,6 @@ const Home = () => {
       <div className="absolute w-52 h-52 bg-purple-500 top-5 -right-20 rounded-full filter blur-2xl  opacity-10 "></div>
       <div className="absolute w-96 h-96 bg-teal-500 top-29 -left-40 rounded-full filter blur-2xl opacity-10  "></div>
       <div className="absolute w-96 h-96 bg-violet-500 -bottom-2 -right-20 rounded-full filter  blur-2xl opacity-10 "></div>
-
-      {submitted && <RenderSuccessScreen onClick={toggleSubmitted} />}
 
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -110,7 +108,7 @@ const Home = () => {
               inputName="name"
               register={register}
               errors={errors}
-              placeholder="rosa melano"
+              placeholder="Guido"
               validate={{
                 required: (v) => v.trim().length > 0 || "Campo requerido",
               }}
@@ -121,7 +119,7 @@ const Home = () => {
               inputName="email"
               register={register}
               errors={errors}
-              placeholder="rosa melano"
+              placeholder="guidocarda@hotmail.com"
               validate={{
                 required: (v) => v.trim().length > 0 || "Campo requerido",
                 isEmail: (v) =>
@@ -139,7 +137,7 @@ const Home = () => {
               register={register}
               errors={errors}
               type={"number"}
-              placeholder="rosa melano"
+              placeholder="21"
               validate={{
                 required: (v) => v.trim().length > 0 || "Campo requerido",
                 positive: (v) => parseInt(v) > 0 || "Debe ser mayor a 0",
@@ -250,15 +248,17 @@ const RenderSuccessScreen = ({ onClick }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
-      <h1 className="text-white text-4xl text-center px-4">
-        Gracias por completar el formulario
-      </h1>
-      <button
-        onClick={onClick}
-        className="bg-indigo-900 text-white py-1 px-4 rounded-md mt-4"
-      >
-        Home
-      </button>
+      <div className="grid place-content-center">
+        <h1 className="text-white text-4xl text-center px-4">
+          Gracias por completar el formulario
+        </h1>
+        <button
+          onClick={onClick}
+          className="bg-indigo-900 text-white py-1 px-4 w-min place-self-center rounded-md mt-4"
+        >
+          Home
+        </button>
+      </div>
     </motion.div>
   );
 };

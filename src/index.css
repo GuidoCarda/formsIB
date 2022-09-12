@@ -3,10 +3,32 @@
 @tailwind components;
 @tailwind utilities;
 
+.test {
+  background: #6a696e;
+}
 @layer base {
   body {
     font-family: "Poppins", sans-serif;
     background: #171717;
+  }
+
+  body::-webkit-scrollbar {
+    width: 15px;
+    height: 15px;
+  }
+
+  body::-webkit-scrollbar-track {
+    border-radius: 0.25rem;
+    background: #222222;
+  }
+
+  body::-webkit-scrollbar-thumb {
+    background: #3f3f3f;
+    border-radius: 0.2rem;
+  }
+
+  body::-webkit-scrollbar-thumb:hover {
+    background: #6a696e;
   }
 
   html {
@@ -28,15 +50,15 @@
 
   .scrollbar::-webkit-scrollbar-track {
     border-radius: 0.25rem;
-    background: #3e3779;
+    background: #222222;
   }
 
   .scrollbar::-webkit-scrollbar-thumb {
-    background: #5f5b7e;
+    background: #3f3f3f;
     border-radius: 0.2rem;
   }
 
   .scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #c0a0b9;
+    background: #6a696e;
   }
 }
