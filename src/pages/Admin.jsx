@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { AuthContext } from "../context/AuthContext";
 import { useEffect } from "react";
+import { motion } from "framer-motion";
 
 const Admin = () => {
   //PRUEBA DE CONSULTAS DE DATOS
@@ -72,7 +73,12 @@ const Admin = () => {
   }
 
   return (
-    <div className="relative overflow-hidden min-h-screen h-full flex flex-col items-center justify-center bg-neutral-900 text-slate-200 py-2 px-6">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="relative overflow-hidden min-h-screen h-full flex flex-col items-center justify-center bg-neutral-900 text-slate-200 py-2 px-6"
+    >
       <div className="absolute w-52 h-52 bg-purple-500 top-5 -right-20 rounded-full filter blur-2xl  opacity-10 "></div>
       <div className="absolute w-96 h-96 bg-teal-500 top-29 -left-40 rounded-full filter blur-2xl opacity-10  "></div>
       <div className="absolute w-96 h-96 bg-violet-500 -bottom-2 -right-20 rounded-full filter  blur-2xl opacity-10 "></div>
@@ -114,7 +120,7 @@ const Admin = () => {
       >
         volver a la pagina de formulario
       </Link>
-    </div>
+    </motion.div>
   );
 };
 

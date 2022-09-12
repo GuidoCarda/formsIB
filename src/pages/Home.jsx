@@ -35,13 +35,21 @@ const Home = () => {
   });
 
   const onSubmit = (data) => {
+    // sets all values toLowerCase()
+    const parsedData = Object.fromEntries(
+      Object.entries(data).map((values) => {
+        if (typeof values[1] === "string")
+          return [values[0], values[1].toLowerCase()];
+        return values;
+      })
+    );
+
     setIsSubmitting(true);
-    postFormData(data);
+    postFormData(parsedData);
   };
 
   useEffect(() => {}, [submitted]);
 
-  // console.log(watch("nombre"));
   const plays = watch("plays");
 
   const postFormData = async (formData) => {
@@ -68,7 +76,10 @@ const Home = () => {
   ////////////////////////////////////
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       className={`relative overflow-hidden min-h-screen h-full flex items-center justify-center bg-neutral-900 text-slate-200 py-2`}
     >
       <div className="absolute w-52 h-52 bg-purple-500 top-5 -right-20 rounded-full filter blur-2xl  opacity-10 "></div>
@@ -226,7 +237,7 @@ const Home = () => {
           </motion.div>
         </LayoutGroup>
       </form>
-    </div>
+    </motion.div>
   );
 };
 
