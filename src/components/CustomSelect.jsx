@@ -15,6 +15,8 @@ const CustomSelect = (props) => {
     field: { value, onChange },
   } = useController(props);
 
+  // console.log(value);
+
   return (
     <Listbox
       className="relative mb-10 z-10"
@@ -22,7 +24,7 @@ const CustomSelect = (props) => {
       onChange={onChange}
       as="div"
     >
-      <Listbox.Button className="focus:outline-none focus:border-indigo-900 w-full h-10 bg-neutral-900  rounded-md border-neutral-800 border-2 flex items-center justify-between px-2 hover:cursor-pointer">
+      <Listbox.Button className="focus:outline-none focus:border-indigo-900 w-full h-10 bg-neutral-900 text-neutral-200  rounded-md border-neutral-800 border-2 flex items-center justify-between px-2 hover:cursor-pointer">
         {value ? value : "Selecciona tu carrera!"}
       </Listbox.Button>
       <Transition
