@@ -73,6 +73,8 @@ const Home = () => {
   };
   ////////////////////////////////////
 
+  if (!submitted) return <RenderIntroScreen />;
+
   if (submitted) return <RenderSuccessScreen onClick={toggleSubmitted} />;
 
   return (
@@ -258,6 +260,30 @@ const RenderSuccessScreen = ({ onClick }) => {
         >
           Home
         </button>
+      </div>
+    </motion.div>
+  );
+};
+
+const RenderIntroScreen = () => {
+  return (
+    <motion.div
+      className="fixed inset-0 z-20 grid place-items-center h-full w-full bg-neutral-900 px-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+    >
+      <div className="flex flex-col bg-neutral-800 w-full md:w-96 px-4 py-6 rounded-md">
+        <h2 className="text-2xl text-white">
+          Cursas en el instituto belgrano?
+        </h2>
+        <div className="ml-auto">
+          <button className="bg-neutral-700/50  text-white py-1 w-20 rounded-md">
+            No
+          </button>
+          <button className="bg-indigo-800 text-white py-1 w-20 place-self-center rounded-md mt-10 ml-3">
+            Si
+          </button>
+        </div>
       </div>
     </motion.div>
   );
