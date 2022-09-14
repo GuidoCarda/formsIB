@@ -12,6 +12,7 @@ import { useEffect } from "react";
 const Home = () => {
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [studiesInIB, setStudiesInIB] = useState(null);
 
   const defaultValues = {
     name: "",
@@ -46,6 +47,7 @@ const Home = () => {
 
     setIsSubmitting(true);
     postFormData(parsedData);
+    setStudiesInIB(null);
   };
 
   const plays = watch("plays");
@@ -65,6 +67,9 @@ const Home = () => {
     }
   };
 
+  const handleIntroScreenStates = (studies) =>
+    studies ? setStudiesInIB(true) : setStudiesInIB(false);
+
   // Temp functions
   /////////////////////////////////////
   const toggleSubmitted = () => {
@@ -73,7 +78,8 @@ const Home = () => {
   };
   ////////////////////////////////////
 
-  if (!submitted) return <RenderIntroScreen />;
+  if (studiesInIB === null)
+    return <RenderIntroScreen handleIntroState={handleIntroScreenStates} />;
 
   if (submitted) return <RenderSuccessScreen onClick={toggleSubmitted} />;
 
@@ -146,23 +152,24 @@ const Home = () => {
                 lessThanTen: (v) => parseInt(v) < 100 || "Ah sos re troll",
               }}
             />
+            {studiesInIB && (
+              <div className="relative">
+                <label className="inline-block mb-1 capitalize">
+                  Que carrera estas cursando?
+                </label>
+                <CustomSelect
+                  name={"carreras"}
+                  control={control}
+                  rules={studiesInIB ? { required: true } : null}
+                ></CustomSelect>
 
-            <div className="relative">
-              <label className="inline-block mb-1 capitalize">
-                Que carrera estas cursando?
-              </label>
-              <CustomSelect
-                name={"carreras"}
-                control={control}
-                rules={{ required: true }}
-              ></CustomSelect>
-
-              {errors.carreras && (
-                <span className=" absolute -bottom-6 z-0 text-sm mt-2 left-0 text-red-500">
-                  Campo es requerido
-                </span>
-              )}
-            </div>
+                {errors.carreras && (
+                  <span className=" absolute -bottom-6 z-0 text-sm mt-2 left-0 text-red-500">
+                    Campo es requerido
+                  </span>
+                )}
+              </div>
+            )}
 
             <div className="flex gap-4 h- accent-indigo-500 items-center">
               <label>Jugas algun video juego?</label>
@@ -265,7 +272,7 @@ const RenderSuccessScreen = ({ onClick }) => {
   );
 };
 
-const RenderIntroScreen = () => {
+const RenderIntroScreen = ({ handleIntroState }) => {
   return (
     <motion.div
       className="fixed inset-0 z-20 grid place-items-center h-full w-full bg-neutral-900 px-4"
@@ -277,10 +284,16 @@ const RenderIntroScreen = () => {
           Cursas en el instituto belgrano?
         </h2>
         <div className="ml-auto">
-          <button className="bg-neutral-700/50  text-white py-1 w-20 rounded-md">
+          <button
+            className="bg-neutral-700/50  text-white py-1 w-20 rounded-md"
+            onClick={() => handleIntroState(false)}
+          >
             No
           </button>
-          <button className="bg-indigo-800 text-white py-1 w-20 place-self-center rounded-md mt-10 ml-3">
+          <button
+            className="bg-indigo-800 text-white py-1 w-20 place-self-center rounded-md mt-10 ml-3"
+            onClick={() => handleIntroState(true)}
+          >
             Si
           </button>
         </div>
