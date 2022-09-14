@@ -6,6 +6,7 @@ import AuthProvider from "./context/AuthContext";
 import Admin from "./pages/Admin";
 import DashBoard from "./pages/Dashboard";
 import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./pages/ProtectedRoute";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<DashBoard />} />
           </Route>
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </AnimatePresence>
     </AuthProvider>
