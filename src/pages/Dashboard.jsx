@@ -1,11 +1,20 @@
-import { getAuth, signOut } from "firebase/auth";
+import React, { useState, useEffect } from "react";
+
+//Firebase
 import { collection, getDocs, query } from "firebase/firestore";
-import React, { useState } from "react";
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { getAuth, signOut } from "firebase/auth";
 import { db } from "../firebase/firebase";
+
+//Routing
+import { Link } from "react-router-dom";
+
+//Animations
 import { motion } from "framer-motion";
+
+//Components
 import RepliesListContainer from "../components/RepliesListContainer";
+
+//Placeholder data
 import { carreras } from "../components/CustomSelect";
 
 const placeholderData = [

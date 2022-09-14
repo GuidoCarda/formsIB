@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+//Component logic handling
 import { RadioGroup } from "@headlessui/react";
+
+//Form handling
 import { useController } from "react-hook-form";
-import { useEffect } from "react";
 
 const games = [
   "Valorant",

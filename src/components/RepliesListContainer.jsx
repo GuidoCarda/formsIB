@@ -1,7 +1,10 @@
 import React from "react";
+
+//Components
 import RepliesListItem from "./RepliesListItem";
 
 const RepliesListContainer = ({ replies, loading }) => {
+  //While fetching data
   if (loading) {
     return (
       <>
@@ -10,6 +13,7 @@ const RepliesListContainer = ({ replies, loading }) => {
     );
   }
 
+  //If there's no data
   if (!loading && replies.length === 0) {
     return (
       <>

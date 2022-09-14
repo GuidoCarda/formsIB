@@ -1,13 +1,20 @@
-import { AnimatePresence } from "framer-motion";
 import React from "react";
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
-import "./App.css";
+
+//Context
 import AuthProvider from "./context/AuthContext";
+
+//Routing
+import { Route, Routes } from "react-router-dom";
+import ProtectedRoute from "./pages/ProtectedRoute";
+
+//Pages
 import Admin from "./pages/Admin";
 import DashBoard from "./pages/Dashboard";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
-import ProtectedRoute from "./pages/ProtectedRoute";
+
+//Animations
+import { AnimatePresence } from "framer-motion";
 
 function App() {
   return (

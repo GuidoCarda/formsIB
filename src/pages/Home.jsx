@@ -1,13 +1,22 @@
 import React, { useState } from "react";
-import CustomSelect from "../components/CustomSelect";
-import GameSelect from "../components/GameSelect";
+
+//Firebase
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../firebase/firebase";
+
+//Form handling
 import { useForm } from "react-hook-form";
-import Input from "../components/Input";
-import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
+
+//Routing
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
+
+//Animations
+import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
+
+//Components
+import CustomSelect from "../components/CustomSelect";
+import GameSelect from "../components/GameSelect";
+import Input from "../components/Input";
 
 const Home = () => {
   const [submitted, setSubmitted] = useState(false);
@@ -47,7 +56,6 @@ const Home = () => {
 
     setIsSubmitting(true);
     postFormData(parsedData);
-    setStudiesInIB(null);
   };
 
   const plays = watch("plays");
@@ -75,6 +83,7 @@ const Home = () => {
   const toggleSubmitted = () => {
     setSubmitted((prev) => !prev);
     setIsSubmitting((prev) => !prev);
+    setStudiesInIB(null);
   };
   ////////////////////////////////////
 

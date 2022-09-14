@@ -1,8 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
 import App from "./App";
+
+//Routing
+import { BrowserRouter } from "react-router-dom";
+
+//Context
 import AuthProvider from "./context/AuthContext";
+
+//Base styles
 import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
