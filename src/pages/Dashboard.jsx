@@ -177,9 +177,9 @@ const DashBoard = () => {
               </ul>
             </div>
           </section> */}
-          <h1 className="mb-6 text-4xl">Ideas</h1>{" "}
           <section className="relative my-4 md:grid md:grid-cols-4 md:gap-4">
-            <div className="absolute right-0 -top-14  pb-4 col-span-3">
+            <div className="mb-6 col-span-3 flex justify-between items-center">
+              <h1 className="text-4xl">Ideas</h1>
               <Dropdown />
             </div>
             <div className="bg-neutral-800 rounded-md p-4 col-span-3">
