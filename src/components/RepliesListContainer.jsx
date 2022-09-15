@@ -28,7 +28,7 @@ const RepliesListContainer = ({ replies, loading }) => {
       <ul className="flex flex-col gap-4">
         {replies &&
           replies.map((reply, idx) => (
-            <RepliesListItem replyData={reply} idx={idx} />
+            <RepliesListItem replyData={reply} key={idx} i={idx} />
           ))}
       </ul>
     </>

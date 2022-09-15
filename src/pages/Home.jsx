@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 //Firebase
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 
 //Form handling
@@ -62,7 +62,10 @@ const Home = () => {
 
   const postFormData = async (formData) => {
     try {
-      const docRef = await addDoc(collection(db, "survey"), formData);
+      const docRef = await addDoc(collection(db, "survey"), {
+        ...formData,
+        createdAt: serverTimestamp(),
+      });
 
       setTimeout(() => {
         setSubmitted(true);

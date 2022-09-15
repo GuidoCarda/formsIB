@@ -3,15 +3,14 @@ import React from "react";
 //Animations
 import { motion } from "framer-motion";
 
-const RepliesListItem = ({ replyData, idx }) => {
+const RepliesListItem = ({ replyData, i }) => {
   const { name, age, gameIdea, plays, gamesPlayed } = replyData;
   return (
     <motion.li
       className="border-b-2 border-white/5 last-of-type:border-0 pb-4 last-of-type:pb-0"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ delay: idx * 0.3 }}
-      key={idx}
+      transition={{ delay: i * 0.3 }}
     >
       <div className="flex flex-col  justify-between">
         <div className="flex items-center gap-2">
