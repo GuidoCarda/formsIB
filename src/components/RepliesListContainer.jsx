@@ -4,6 +4,7 @@ import React from "react";
 import RepliesListItem from "./RepliesListItem";
 
 const RepliesListContainer = ({ replies, loading }) => {
+  console.log(replies);
   //While fetching data
   if (loading) {
     return (

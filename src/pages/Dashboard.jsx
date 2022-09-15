@@ -16,45 +16,50 @@ import RepliesListContainer from "../components/RepliesListContainer";
 
 //Placeholder data
 import { carreras } from "../components/CustomSelect";
+import Dropdown from "../components/Dropdown";
 
 const placeholderData = [
   {
-    nombre: "guido",
-    edad: 21,
+    name: "guido",
+    age: 21,
     email: "guidocarda@hotmail.com",
     gameIdea:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc neque ante, maximus eget diam vel, gravida fermentum felis. Nulla at quam auctor, volutpat dui et, dignissim lorem. Vivamus in justo sed justo semper laoreet. Nullam consectetur quam at sollicitudin dignissim. ",
     plays: true,
+    gamesPlayed: ["valorant", "csgo"],
   },
   {
-    nombre: "Joanco",
-    edad: 21,
+    name: "Joanco",
+    age: 21,
     email: "guidocarda@hotmail.com",
     gameIdea:
       "Nam luctus eu erat vitae cursus. Proin maximus sagittis mi scelerisque dignissim. Ut vitae pulvinar nulla, at molestie dui. Nam vulputate felis magna, eget viverra nulla sollicitudin et. Nullam pulvinar massa erat, mollis ultricies nisl aliquet ut. Maecenas luctus aliquet tristique. Vestibulum nec blandit orci. Curabitur nec euismod dolor. Donec vel est quis leo vulputate finibus. Vestibulum sed tincidunt lacus. Donec ullamcorper diam ligula. Nulla ut urna non enim cursus pellentesque a non erat.",
     plays: false,
+    gamesPlayed: "",
   },
   {
-    nombre: "Sorento",
-    edad: 21,
+    name: "Sorento",
+    age: 21,
     email: "guidocarda@hotmail.com",
     gameIdea:
       "Eget viverra nulla sollicitudin et. Nullam pulvinar massa erat, mollis ultricies nisl aliquet ut. Maecenas luctus aliquet tristique. Vestibulum nec blandit orci. Curabitur nec euismod dolor. Donec vel est quis leo vulputate finibus. Vestibulum sed tincidunt lacus. Donec ullamcorper diam ligula. Nulla ut urna non enim cursus pellentesque a non erat.",
     plays: false,
+    gamesPlayed: "",
   },
   {
-    nombre: "guido",
-    edad: 21,
+    name: "guido",
+    age: 21,
     email: "guidocarda@hotmail.com",
     gameIdea:
       "Eget viverra nulla sollicitudin et. Nullam pulvinar massa erat, mollis ultricies nisl aliquet ut. Maecenas luctus aliquet tristique. Vestibulum nec blandit orci. Curabitur nec euismod dolor. Donec vel est quis leo vulputate finibus. Vestibulum sed tincidunt lacus. Donec ullamcorper diam ligula. Nulla ut urna non enim cursus pellentesque a non erat.",
     plays: true,
+    gamesPlayed: ["valorant", "csgo", "souls"],
   },
 ];
 
 const DashBoard = () => {
-  const [dashboardData, setDashboardData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [dashboardData, setDashboardData] = useState(placeholderData);
+  const [loading, setLoading] = useState(false);
 
   const auth = getAuth();
   const handleSignOut = () => {
@@ -74,9 +79,9 @@ const DashBoard = () => {
     setLoading(false);
   };
 
-  useEffect(() => {
-    getData();
-  }, []);
+  // useEffect(() => {
+  //   getData();
+  // }, []);
 
   return (
     <motion.div
@@ -172,9 +177,11 @@ const DashBoard = () => {
               </ul>
             </div>
           </section> */}
-
-          <h1 className="mb-6 text-4xl">Ideas</h1>
-          <section className="my-4 md:grid md:grid-cols-4 md:gap-4">
+          <h1 className="mb-6 text-4xl">Ideas</h1>{" "}
+          <section className="relative my-4 md:grid md:grid-cols-4 md:gap-4">
+            <div className="absolute right-0 -top-14  pb-4 col-span-3">
+              <Dropdown />
+            </div>
             <div className="bg-neutral-800 rounded-md p-4 col-span-3">
               <RepliesListContainer replies={dashboardData} loading={loading} />
             </div>
