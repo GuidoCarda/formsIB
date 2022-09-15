@@ -3,9 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.test {
-  background: #6a696e;
-}
 @layer base {
   body {
     font-family: "Poppins", sans-serif;

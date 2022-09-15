@@ -1,5 +1,9 @@
-import { Listbox, Transition } from "@headlessui/react";
 import React from "react";
+
+//Conponent logic handling and animations
+import { Listbox, Transition } from "@headlessui/react";
+
+//Form handling
 import { useController } from "react-hook-form";
 
 export const carreras = [

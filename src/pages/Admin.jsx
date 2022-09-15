@@ -1,8 +1,13 @@
-import React, { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+
+//Firebase
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+
+//Routing
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import { useEffect } from "react";
+
+//Animations
 import { motion } from "framer-motion";
 
 const Admin = () => {

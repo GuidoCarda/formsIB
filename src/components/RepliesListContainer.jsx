@@ -1,7 +1,10 @@
 import React from "react";
+
+//Components
 import RepliesListItem from "./RepliesListItem";
 
 const RepliesListContainer = ({ replies, loading }) => {
+  //While fetching data
   if (loading) {
     return (
       <>
@@ -10,6 +13,7 @@ const RepliesListContainer = ({ replies, loading }) => {
     );
   }
 
+  //If there's no data
   if (!loading && replies.length === 0) {
     return (
       <>
@@ -24,7 +28,7 @@ const RepliesListContainer = ({ replies, loading }) => {
       <ul className="flex flex-col gap-4">
         {replies &&
           replies.map((reply, idx) => (
-            <RepliesListItem replyData={reply} idx={idx} />
+            <RepliesListItem replyData={reply} key={idx} i={idx} />
           ))}
       </ul>
     </>

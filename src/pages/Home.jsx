@@ -1,17 +1,27 @@
 import React, { useState } from "react";
+
+//Firebase
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { db } from "../firebase/firebase";
+
+//Form handling
+import { useForm } from "react-hook-form";
+
+//Routing
+import { Link } from "react-router-dom";
+
+//Animations
+import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
+
+//Components
 import CustomSelect from "../components/CustomSelect";
 import GameSelect from "../components/GameSelect";
-import { collection, addDoc } from "firebase/firestore";
-import { db } from "../firebase/firebase";
-import { useForm } from "react-hook-form";
 import Input from "../components/Input";
-import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
-import { Link } from "react-router-dom";
-import { useEffect } from "react";
 
 const Home = () => {
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [studiesInIB, setStudiesInIB] = useState(null);
 
   const defaultValues = {
     name: "",
@@ -52,7 +62,10 @@ const Home = () => {
 
   const postFormData = async (formData) => {
     try {
-      const docRef = await addDoc(collection(db, "survey"), formData);
+      const docRef = await addDoc(collection(db, "survey"), {
+        ...formData,
+        createdAt: serverTimestamp(),
+      });
 
       setTimeout(() => {
         setSubmitted(true);
@@ -65,13 +78,20 @@ const Home = () => {
     }
   };
 
+  const handleIntroScreenStates = (studies) =>
+    studies ? setStudiesInIB(true) : setStudiesInIB(false);
+
   // Temp functions
   /////////////////////////////////////
   const toggleSubmitted = () => {
     setSubmitted((prev) => !prev);
     setIsSubmitting((prev) => !prev);
+    setStudiesInIB(null);
   };
   ////////////////////////////////////
+
+  if (studiesInIB === null)
+    return <RenderIntroScreen handleIntroState={handleIntroScreenStates} />;
 
   if (submitted) return <RenderSuccessScreen onClick={toggleSubmitted} />;
 
@@ -144,23 +164,24 @@ const Home = () => {
                 lessThanTen: (v) => parseInt(v) < 100 || "Ah sos re troll",
               }}
             />
+            {studiesInIB && (
+              <div className="relative">
+                <label className="inline-block mb-1 capitalize">
+                  Que carrera estas cursando?
+                </label>
+                <CustomSelect
+                  name={"carreras"}
+                  control={control}
+                  rules={studiesInIB ? { required: true } : null}
+                ></CustomSelect>
 
-            <div className="relative">
-              <label className="inline-block mb-1 capitalize">
-                Que carrera estas cursando?
-              </label>
-              <CustomSelect
-                name={"carreras"}
-                control={control}
-                rules={{ required: true }}
-              ></CustomSelect>
-
-              {errors.carreras && (
-                <span className=" absolute -bottom-6 z-0 text-sm mt-2 left-0 text-red-500">
-                  Campo es requerido
-                </span>
-              )}
-            </div>
+                {errors.carreras && (
+                  <span className=" absolute -bottom-6 z-0 text-sm mt-2 left-0 text-red-500">
+                    Campo es requerido
+                  </span>
+                )}
+              </div>
+            )}
 
             <div className="flex gap-4 h- accent-indigo-500 items-center">
               <label>Jugas algun video juego?</label>
@@ -258,6 +279,36 @@ const RenderSuccessScreen = ({ onClick }) => {
         >
           Home
         </button>
+      </div>
+    </motion.div>
+  );
+};
+
+const RenderIntroScreen = ({ handleIntroState }) => {
+  return (
+    <motion.div
+      className="fixed inset-0 z-20 grid place-items-center h-full w-full bg-neutral-900 px-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+    >
+      <div className="flex flex-col bg-neutral-800 w-full md:w-96 px-4 py-6 rounded-md">
+        <h2 className="text-2xl text-white">
+          Cursas en el instituto belgrano?
+        </h2>
+        <div className="ml-auto">
+          <button
+            className="bg-neutral-700/50  text-white py-1 w-20 rounded-md"
+            onClick={() => handleIntroState(false)}
+          >
+            No
+          </button>
+          <button
+            className="bg-indigo-800 text-white py-1 w-20 place-self-center rounded-md mt-10 ml-3"
+            onClick={() => handleIntroState(true)}
+          >
+            Si
+          </button>
+        </div>
       </div>
     </motion.div>
   );
