@@ -3,14 +3,15 @@ import React from "react";
 //Handling component logic
 import { Menu, Transition } from "@headlessui/react";
 
-const Dropdown = () => {
+const Dropdown = ({ handleDropdownClick, label, menuItems }) => {
+  const handleClick = (e) => handleDropdownClick(e.target.textContent);
+
   return (
     <Menu as="div" className="relative">
       <Menu.Button className="bg-white/10  text-white py-1 px-2 rounded-md flex gap-4 items-center justify-between hover:outline-2 hover:outline-indigo-500 ">
         {({ open }) => (
           <>
-            <span className="">Filtrar por</span>
-
+            <span className="">{label}</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -41,14 +42,15 @@ const Dropdown = () => {
             "absolute right-0 mt-2 p-1 w-48 origin-top-right rounded-md bg-neutral-700 filter backdrop-blur-sm shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none overflow-none"
           }
         >
-          {["fecha", "nombre", "juega", "no juega"].map((menuItem) => (
-            <Menu.Item>
+          {menuItems.map((menuItem) => (
+            <Menu.Item key={menuItem}>
               {({ active }) => (
                 <button
                   className={`${
                     active && "bg-indigo-500"
                   } flex w-full px-2 py-1 rounded-sm `}
                   href=""
+                  onClick={handleClick}
                 >
                   {menuItem}
                 </button>

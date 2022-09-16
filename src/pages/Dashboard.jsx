@@ -58,8 +58,9 @@ const placeholderData = [
 ];
 
 const DashBoard = () => {
-  const [dashboardData, setDashboardData] = useState(placeholderData);
-  const [loading, setLoading] = useState(false);
+  const [dashboardData, setDashboardData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [dropdownVal, setDropdownVal] = useState(null);
 
   const auth = getAuth();
   const handleSignOut = () => {
@@ -72,16 +73,40 @@ const DashBoard = () => {
       });
   };
 
+  useEffect(() => {
+    sortBy(dropdownVal);
+  }, [dropdownVal]);
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const handleDropdownClick = (value) => {
+    setDropdownVal(value);
+  };
+
+  const sortBy = (condition) => {
+    const dataCopy = [...dashboardData];
+
+    if (condition === "fecha") {
+      console.log("entro fecha");
+      dataCopy.sort(
+        (replyA, replyB) => replyA.createdAt.seconds - replyB.createdAt.seconds
+      );
+    }
+    if (condition == "nombre") {
+      console.log("entro nombre");
+      dataCopy.sort((replyA, replyB) => replyA.name.localeCompare(replyB.name));
+    }
+    setDashboardData(dataCopy);
+  };
+
   const getData = async () => {
     const querySnapshot = await getDocs(collection(db, "survey"));
     const surveyData = querySnapshot.docs.map((doc) => doc.data());
     setDashboardData(surveyData);
     setLoading(false);
   };
-
-  // useEffect(() => {
-  //   getData();
-  // }, []);
 
   return (
     <motion.div
@@ -180,7 +205,13 @@ const DashBoard = () => {
           <section className="relative my-4 md:grid md:grid-cols-4 md:gap-4">
             <div className="mb-6 col-span-3 flex justify-between items-center">
               <h1 className="text-4xl">Ideas</h1>
-              <Dropdown />
+              <div className="flex gap-4">
+                <Dropdown
+                  handleDropdownClick={handleDropdownClick}
+                  label="ordenar por"
+                  menuItems={["fecha", "nombre"]}
+                />
+              </div>
             </div>
             <div className="bg-neutral-800 rounded-md p-4 col-span-3">
               <RepliesListContainer replies={dashboardData} loading={loading} />
