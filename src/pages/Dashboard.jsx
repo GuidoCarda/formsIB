@@ -58,8 +58,8 @@ const placeholderData = [
 ];
 
 const DashBoard = () => {
-  const [dashboardData, setDashboardData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [dashboardData, setDashboardData] = useState(placeholderData);
+  const [loading, setLoading] = useState(false);
   const [dropdownVal, setDropdownVal] = useState(null);
 
   const auth = getAuth();
@@ -77,9 +77,9 @@ const DashBoard = () => {
     sortBy(dropdownVal);
   }, [dropdownVal]);
 
-  useEffect(() => {
-    getData();
-  }, []);
+  // useEffect(() => {
+  //   getData();
+  // }, []);
 
   const handleDropdownClick = (value) => {
     setDropdownVal(value);
@@ -89,13 +89,11 @@ const DashBoard = () => {
     const dataCopy = [...dashboardData];
 
     if (condition === "fecha") {
-      console.log("entro fecha");
       dataCopy.sort(
         (replyA, replyB) => replyA.createdAt.seconds - replyB.createdAt.seconds
       );
     }
     if (condition == "nombre") {
-      console.log("entro nombre");
       dataCopy.sort((replyA, replyB) => replyA.name.localeCompare(replyB.name));
     }
     setDashboardData(dataCopy);
@@ -158,53 +156,10 @@ const DashBoard = () => {
               </div>
             ))}
           </div>
-          {/* <h1 className="mb-6 text-4xl">Más Jugados</h1>
-          <section className="mt-4 grid md:grid-cols-2 gap-4 mb-10">
-            <div className="bg-neutral-800 rounded-md p-4">
-              <div className="flex justify-between text-neutral-400 pb-2 mb-2">
-                <span>Valorant</span>
-                <span>prom edad</span>
-                <span>total</span>
-              </div>
-              <ul className="flex flex-col gap-4">
-                {Array(5)
-                  .fill(0)
-                  .map((_, i) => (
-                    <li key={i}>
-                      <div className="flex justify-between">
-                        <p>Valorant</p>
-                        <p>20 años</p>
-                        <p> 124</p>
-                      </div>
-                    </li>
-                  ))}
-              </ul>
-            </div>
-            <div className="bg-neutral-800 rounded-md p-4">
-              <div className="flex justify-between text-neutral-400 pb-2 mb-2">
-                <span>Nombre</span>
-                <span>Edad</span>
-                <span>Email</span>
-                <span>Idea</span>
-              </div>
-              <ul className="flex flex-col gap-4">
-                {dashboardData &&
-                  dashboardData.map(({ nombre, edad, email, gameIdea }, i) => (
-                    <li>
-                      <div key={i} className="flex justify-between">
-                        <p>{nombre}</p>
-                        <p>{edad}</p>
-                        <p>{email}</p>
-                        <p>{gameIdea}</p>
-                      </div>
-                    </li>
-                  ))}
-              </ul>
-            </div>
-          </section> */}
           <section className="relative my-4 md:grid md:grid-cols-4 md:gap-4">
-            <div className="mb-6 col-span-3 flex justify-between items-center">
+            <div className="mb-6 col-span-3 flex flex-wrap justify-between items-center">
               <h1 className="text-4xl">Ideas</h1>
+
               <div className="flex gap-4">
                 <Dropdown
                   handleDropdownClick={handleDropdownClick}
@@ -214,6 +169,31 @@ const DashBoard = () => {
               </div>
             </div>
             <div className="bg-neutral-800 rounded-md p-4 col-span-3">
+              {(!loading || dashboardData.lenght === 0) && (
+                <div className="flex gap-2 justify-center mb-6 border-2 border-white/20 rounded-md p-2 ">
+                  <p className="text-neutral-400">filtrar por:</p>
+                  <div className="flex items-center gap-2 ml-auto ">
+                    <label htmlFor="juega">Juega</label>
+                    <input
+                      type={"radio"}
+                      id="juega"
+                      name="juega"
+                      class="w-4 h-4 accent-indigo-500  "
+                    />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <label htmlFor="no-juega" className=" ">
+                      no juega
+                    </label>
+                    <input
+                      type={"radio"}
+                      id="no-juega"
+                      name="juega"
+                      className="w-4 h-4 accent-indigo-500 "
+                    />
+                  </div>
+                </div>
+              )}
               <RepliesListContainer replies={dashboardData} loading={loading} />
             </div>
             <div className="bg-neutral-800 rounded-md p-4 h-min hidden md:block">
