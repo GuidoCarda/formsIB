@@ -175,26 +175,27 @@ const DashBoard = () => {
               </div>
             ))}
           </div>
-          <section className="relative my-4 md:grid md:grid-cols-4 md:gap-4">
-            <div className="mb-6 col-span-3 flex flex-wrap justify-between items-center">
+
+          {/* replies */}
+          <section className="relative my-4 grid gap-y-4  grid-cols-1 md:grid-cols-4 md:gap-4">
+            <div className="mb-6 col-span-full order-1 md:col-span-3 md:order-none flex flex-wrap justify-between items-center">
               <h1 className="text-4xl">Ideas</h1>
 
-              <div className="flex gap-4 mt-4 sm:mt-0 flex-wrap">
-                <Dropdown
-                  handleDropdownClick={handleDropdownClick}
-                  label="ordenar por"
-                  menuItems={["fecha", "nombre"]}
-                />
-              </div>
+              <Dropdown
+                handleDropdownClick={handleDropdownClick}
+                label="ordenar por"
+                menuItems={["fecha", "nombre"]}
+              />
             </div>
 
-            <div className="bg-neutral-800 rounded-md p-4 col-span-3">
+            <div className="bg-neutral-800 order-3 rounded-md md:order-none p-4 md:col-span-3">
               <RepliesListContainer
                 replies={filteredData ? filteredData : dashboardData}
                 loading={loading}
               />
             </div>
-            <div className="bg-neutral-800 rounded-md p-4 h-min hidden md:block">
+
+            <div className="bg-neutral-800 order-2 rounded-md md:order-none w-full p-4 h-min ">
               <h2 className="text-2xl mb-4">Resumen</h2>
               {dashboardData.lenght !== 0 && !loading && (
                 <>
