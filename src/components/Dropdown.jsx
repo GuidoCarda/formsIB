@@ -7,8 +7,8 @@ const Dropdown = ({ handleDropdownClick, label, menuItems }) => {
   const handleClick = (e) => handleDropdownClick(e.target.textContent);
 
   return (
-    <Menu as="div" className="relative">
-      <Menu.Button className="bg-white/10  text-white py-1 px-2 rounded-md flex gap-4 items-center justify-between hover:outline-2 hover:outline-indigo-500 ">
+    <Menu as="div" className="relative ml-auto">
+      <Menu.Button className="bg-white/10 text-white py-1 px-4 h-10 rounded-md flex gap-4 items-center justify-between hover:outline-2 hover:outline-indigo-500 ">
         {({ open }) => (
           <>
             <span className="">{label}</span>

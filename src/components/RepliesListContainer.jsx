@@ -1,5 +1,8 @@
 import React from "react";
 
+//Animations
+import { AnimatePresence } from "framer-motion";
+
 //Components
 import RepliesListItem from "./RepliesListItem";
 

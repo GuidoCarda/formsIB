@@ -58,9 +58,18 @@ const placeholderData = [
 ];
 
 const DashBoard = () => {
-  const [dashboardData, setDashboardData] = useState(placeholderData);
-  const [loading, setLoading] = useState(false);
+  const [dashboardData, setDashboardData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [dropdownVal, setDropdownVal] = useState(null);
+  const [filterQuery, setFilterQuery] = useState(null);
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  useEffect(() => {
+    sortBy(dropdownVal);
+  }, [dropdownVal]);
 
   const auth = getAuth();
   const handleSignOut = () => {
@@ -73,13 +82,14 @@ const DashBoard = () => {
       });
   };
 
-  useEffect(() => {
-    sortBy(dropdownVal);
-  }, [dropdownVal]);
+  const handleFiltering = (query) => {
+    const dataCopy = [...dashboardData];
+    if (query === "juega") return dataCopy.filter((v) => v.plays);
+    if (query === "no-juega") return dataCopy.filter((v) => !v.plays);
+    return null;
+  };
 
-  // useEffect(() => {
-  //   getData();
-  // }, []);
+  const filteredData = handleFiltering(filterQuery);
 
   const handleDropdownClick = (value) => {
     setDropdownVal(value);
@@ -99,6 +109,15 @@ const DashBoard = () => {
     setDashboardData(dataCopy);
   };
 
+  const handleFilterClick = (e) => {
+    const value = e.target.value;
+    if (filterQuery === value) {
+      e.target.checked = false;
+      return setFilterQuery(null);
+    }
+    setFilterQuery(value);
+  };
+
   const getData = async () => {
     const querySnapshot = await getDocs(collection(db, "survey"));
     const surveyData = querySnapshot.docs.map((doc) => doc.data());
@@ -111,7 +130,7 @@ const DashBoard = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="relative overflow-hidden min-h-screen h-full flex flex-col bg-neutral-900 text-slate-200 py-2 px-6"
+      className="relative overflow-hidden min-h-screen flex flex-col bg-neutral-900 text-slate-200 py-2 px-6"
     >
       <div className="absolute w-52 h-52 bg-purple-500 top-5 -right-20 rounded-full filter blur-2xl  opacity-10 "></div>
       <div className="absolute w-96 h-96 bg-teal-500 top-29 -left-40 rounded-full filter blur-2xl opacity-10  "></div>
@@ -160,7 +179,7 @@ const DashBoard = () => {
             <div className="mb-6 col-span-3 flex flex-wrap justify-between items-center">
               <h1 className="text-4xl">Ideas</h1>
 
-              <div className="flex gap-4">
+              <div className="flex gap-4 mt-4 sm:mt-0 flex-wrap">
                 <Dropdown
                   handleDropdownClick={handleDropdownClick}
                   label="ordenar por"
@@ -168,33 +187,12 @@ const DashBoard = () => {
                 />
               </div>
             </div>
+
             <div className="bg-neutral-800 rounded-md p-4 col-span-3">
-              {(!loading || dashboardData.lenght === 0) && (
-                <div className="flex gap-2 justify-center mb-6 border-2 border-white/20 rounded-md p-2 ">
-                  <p className="text-neutral-400">filtrar por:</p>
-                  <div className="flex items-center gap-2 ml-auto ">
-                    <label htmlFor="juega">Juega</label>
-                    <input
-                      type={"radio"}
-                      id="juega"
-                      name="juega"
-                      class="w-4 h-4 accent-indigo-500  "
-                    />
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <label htmlFor="no-juega" className=" ">
-                      no juega
-                    </label>
-                    <input
-                      type={"radio"}
-                      id="no-juega"
-                      name="juega"
-                      className="w-4 h-4 accent-indigo-500 "
-                    />
-                  </div>
-                </div>
-              )}
-              <RepliesListContainer replies={dashboardData} loading={loading} />
+              <RepliesListContainer
+                replies={filteredData ? filteredData : dashboardData}
+                loading={loading}
+              />
             </div>
             <div className="bg-neutral-800 rounded-md p-4 h-min hidden md:block">
               <h2 className="text-2xl mb-4">Resumen</h2>
@@ -206,6 +204,45 @@ const DashBoard = () => {
                     videojuegos
                   </p>
                 </>
+              )}
+              <p className="text-neutral-400 w-full mt-2">filtrar por:</p>
+              {(!loading || dashboardData.lenght === 0) && (
+                <div className="flex flex-wrap rounded-md mt-2 ">
+                  <div className="flex flex-col flex-grow gap-2  ">
+                    <div className="flex w-full items-center gap-2 border-white/5 bg-white/5 rounded-md h-10 ">
+                      <input
+                        type={"radio"}
+                        id="juega"
+                        name="juega"
+                        value="juega"
+                        className="w-4 h-4 p-2 ml-2 accent-indigo-500"
+                        onClick={handleFilterClick}
+                      />
+                      <label
+                        htmlFor="juega"
+                        className="w-full h-full flex items-center"
+                      >
+                        Juega
+                      </label>
+                    </div>
+                    <div className="flex w-full items-center gap-2 border-white/5 bg-white/5 rounded-md h-10 ">
+                      <input
+                        type={"radio"}
+                        id="no-juega"
+                        value="no-juega"
+                        name="juega"
+                        className="w-4 h-4 ml-2 accent-indigo-500"
+                        onClick={handleFilterClick}
+                      />
+                      <label
+                        htmlFor="no-juega"
+                        className="w-full h-full flex items-center"
+                      >
+                        no juega
+                      </label>
+                    </div>
+                  </div>
+                </div>
               )}
             </div>
           </section>
