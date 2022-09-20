@@ -7,13 +7,12 @@ import { AnimatePresence } from "framer-motion";
 import RepliesListItem from "./RepliesListItem";
 
 const RepliesListContainer = ({ replies, loading }) => {
-  // console.log(replies);
   //While fetching data
   if (loading) {
     return (
-      <>
-        <h2 className="text-xl text-center">Cargando...!</h2>
-      </>
+      <div className="flex items-center justify-center h-full w-full rounded-md  animate-pulse">
+        <h2 className="text-xl ">Cargando...</h2>
+      </div>
     );
   }
 
