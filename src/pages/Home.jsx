@@ -128,7 +128,6 @@ const Home = () => {
               inputName="name"
               register={register}
               errors={errors}
-              placeholder="Guido"
               validate={{
                 required: (v) => v.trim().length > 0 || "Campo requerido",
               }}
@@ -139,7 +138,6 @@ const Home = () => {
               inputName="email"
               register={register}
               errors={errors}
-              placeholder="guidocarda@hotmail.com"
               validate={{
                 required: (v) => v.trim().length > 0 || "Campo requerido",
                 isEmail: (v) =>
@@ -157,7 +155,6 @@ const Home = () => {
               register={register}
               errors={errors}
               type={"number"}
-              placeholder="21"
               validate={{
                 required: (v) => v.trim().length > 0 || "Campo requerido",
                 positive: (v) => parseInt(v) > 0 || "Debe ser mayor a 0",
