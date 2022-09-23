@@ -250,6 +250,18 @@ const Home = () => {
             >
               {!isSubmitting ? "Enviar" : "Enviando..."}
             </button>
+            <div className="text-center mt-6">
+              <span className="text-neutral-500 text-sm">
+                Tuviste algun inconveniente o tenes alguna sugerencia sobre el
+                cuestionario?
+              </span>
+              <Link
+                to="/feedback"
+                className="text-indigo-400 ml-2 mt-4 text-sm hover:bg-indigo-700/20 hover:text-indigo-200 py-1 px-2 rounded-md z-10"
+              >
+                dejanosla aca.
+              </Link>
+            </div>
           </motion.div>
         </LayoutGroup>
       </form>

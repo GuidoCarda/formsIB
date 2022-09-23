@@ -15,6 +15,7 @@ import NotFound from "./pages/NotFound";
 
 //Animations
 import { AnimatePresence } from "framer-motion";
+import Feedback from "./pages/Feedback";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/feedback" element={<Feedback />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<DashBoard />} />
           </Route>
