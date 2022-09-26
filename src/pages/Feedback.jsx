@@ -31,7 +31,7 @@ const Feedback = () => {
 
   return (
     <div className="text-white min-h-screen grid place-content-center">
-      <div className="max-w-screen-sm mx-auto px-4 py-10 rounded-md">
+      <div className="relative max-w-screen-sm mx-auto px-4 py-10 rounded-md">
         <p className="mb-4">
           Buenas! Si ingresaste a esta pagina es porque tuviste algun
           inconveniente con nuestra aplicacion o porque tenes algunas
