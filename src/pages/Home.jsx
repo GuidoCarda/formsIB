@@ -90,7 +90,7 @@ const Home = () => {
   };
   ////////////////////////////////////
 
-  if (studiesInIB === null)
+  if (studiesInIB === null && !submitted)
     return <RenderIntroScreen handleIntroState={handleIntroScreenStates} />;
 
   if (submitted) return <RenderSuccessScreen onClick={toggleSubmitted} />;
@@ -273,21 +273,54 @@ export default Home;
 
 const RenderSuccessScreen = ({ onClick }) => {
   return (
-    <motion.div
-      className="fixed inset-0 z-20 grid place-items-center h-full w-full bg-neutral-900 "
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-    >
-      <div className="grid place-content-center">
-        <h1 className="text-white text-4xl text-center px-4">
-          Gracias por completar el formulario
-        </h1>
-        <button
-          onClick={onClick}
-          className="bg-indigo-900 text-white py-1 px-4 w-min place-self-center rounded-md mt-4"
+    <motion.div className="fixed inset-0 z-20 grid place-items-center h-full w-full bg-neutral-900 text-white ">
+      <div className="text-center p-4">
+        <motion.span
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 1 }}
+          className="h-32 w-32 mb-10 mx-auto flex items-center justify-center  rounded-full bg-green-400/80"
         >
-          Home
-        </button>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+            stroke="currentColor"
+            className="w-12 h-12"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M4.5 12.75l6 6 9-13.5"
+            />
+          </svg>
+        </motion.span>
+        <motion.h1
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="text-4xl mb-6"
+        >
+          Tu mensaje fue enviado con exito
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.7 }}
+          className="text-neutral-400"
+        >
+          Muhas gracias por completar el formulario
+        </motion.p>
+        <motion.button
+          onClick={onClick}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5 }}
+          className="bg-indigo-900 text-white py-1 px-4 place-self-center rounded-md mt-10"
+        >
+          Volver al inicio
+        </motion.button>
       </div>
     </motion.div>
   );
