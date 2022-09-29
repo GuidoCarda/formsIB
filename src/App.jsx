@@ -16,6 +16,7 @@ import NotFound from "./pages/NotFound";
 //Animations
 import { AnimatePresence } from "framer-motion";
 import Feedback from "./pages/Feedback";
+import AboutUs from "./pages/AboutUs";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/feedback" element={<Feedback />} />
+          <Route path="/about-us" element={<AboutUs />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<DashBoard />} />
           </Route>
