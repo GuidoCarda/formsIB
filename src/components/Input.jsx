@@ -38,7 +38,7 @@ const Input = ({
         type={type ? type : "text"}
         {...register(inputName, { validate })}
         placeholder={placeholder}
-        className="focus:outline-none focus:border-indigo-900 autofill:!bg-neutral-900 bg-neutral-900 border-2 border-neutral-800 h-10 rounded-md w-full px-2 mb-8 "
+        className="focus:outline-none focus:border-indigo-900 autofill:!bg-neutral-900 bg-neutral-900 border-2 border-neutral-800 h-10 rounded-md w-full px-2 mb-8"
       />
 
       {errors[inputName] && (

@@ -17,11 +17,20 @@ import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import CustomSelect from "../components/CustomSelect";
 import GameSelect from "../components/GameSelect";
 import Input from "../components/Input";
+import { useEffect } from "react";
 
 const Home = () => {
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [studiesInIB, setStudiesInIB] = useState(null);
+
+  useEffect(() => {
+    const submissionState = window.localStorage.getItem("submitted");
+    if (submissionState) {
+      setSubmitted(true);
+      setStudiesInIB(true);
+    }
+  }, []);
 
   const defaultValues = {
     name: "",
@@ -66,7 +75,7 @@ const Home = () => {
         ...formData,
         createdAt: serverTimestamp(),
       });
-
+      window.localStorage.setItem("submitted", "true");
       setTimeout(() => {
         setSubmitted(true);
         reset(defaultValues);
@@ -312,7 +321,7 @@ const RenderSuccessScreen = ({ onClick }) => {
         >
           Muhas gracias por completar el formulario
         </motion.p>
-        <motion.button
+        {/* <motion.button
           onClick={onClick}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -320,7 +329,7 @@ const RenderSuccessScreen = ({ onClick }) => {
           className="bg-indigo-900 text-white py-1 px-4 place-self-center rounded-md mt-10"
         >
           Volver al inicio
-        </motion.button>
+        </motion.button> */}
       </div>
     </motion.div>
   );
