@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 //Firebase
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
@@ -17,7 +17,6 @@ import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import CustomSelect from "../components/CustomSelect";
 import GameSelect from "../components/GameSelect";
 import Input from "../components/Input";
-import { useEffect } from "react";
 import SubmissionState from "../components/SubmissionState";
 
 const Home = () => {
@@ -27,9 +26,15 @@ const Home = () => {
 
   useEffect(() => {
     const submissionState = window.localStorage.getItem("submitted");
+    const userState = window.localStorage.getItem("studiesInIB");
+
     if (submissionState) {
       setSubmitted(true);
-      setStudiesInIB(true);
+      return setStudiesInIB(true);
+    }
+
+    if (userState) {
+      setStudiesInIB(userState);
     }
   }, []);
 
@@ -88,22 +93,14 @@ const Home = () => {
     }
   };
 
-  const handleIntroScreenStates = (studies) =>
+  const handleIntroScreenStates = (studies) => {
     studies ? setStudiesInIB(true) : setStudiesInIB(false);
-
-  // Temp functions
-  /////////////////////////////////////
-  const toggleSubmitted = () => {
-    setSubmitted((prev) => !prev);
-    setIsSubmitting((prev) => !prev);
-    setStudiesInIB(null);
+    window.localStorage.setItem("studiesInIB", studies);
   };
-  ////////////////////////////////////
 
   if (studiesInIB === null && !submitted)
     return <RenderIntroScreen handleIntroState={handleIntroScreenStates} />;
 
-  // if (submitted) return <RenderSuccessScreen onClick={toggleSubmitted} />;
   if (submitted)
     return (
       <SubmissionState
@@ -128,12 +125,20 @@ const Home = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="h-full md:max-w-xl px-4 py-12 flex flex-col justify-center gap-2 relative z-10"
       >
-        <Link
-          to="/dashboard"
-          className="bg-indigo-900 w-fit py-1 px-4 rounded-md self-end mb-6 hover:bg-indigo-800"
-        >
-          dashboard
-        </Link>
+        <div className="flex gap-2 mb-6">
+          <Link
+            to="/about-us"
+            className="bg-neutral-800 w-fit py-1 px-4 rounded-md hover:bg-indigo-800/20"
+          >
+            sobre nosotros
+          </Link>
+          <Link
+            to="/dashboard"
+            className="bg-indigo-900 w-fit py-1 px-4 rounded-md ml-auto hover:bg-indigo-800"
+          >
+            dashboard
+          </Link>
+        </div>
         <LayoutGroup>
           <motion.div layout>
             <p className="mb-4">

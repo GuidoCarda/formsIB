@@ -1,9 +1,16 @@
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import Input from "../components/Input";
+
+//Services
 import postDoc from "../firebase/services";
 
+//Form handling
+import { useForm } from "react-hook-form";
+
+//Animations
 import { motion } from "framer-motion";
+
+//Components
+import Input from "../components/Input";
 import SubmissionState from "../components/SubmissionState";
 
 const Feedback = () => {
