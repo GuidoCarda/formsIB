@@ -18,6 +18,7 @@ import CustomSelect from "../components/CustomSelect";
 import GameSelect from "../components/GameSelect";
 import Input from "../components/Input";
 import { useEffect } from "react";
+import SubmissionState from "../components/SubmissionState";
 
 const Home = () => {
   const [submitted, setSubmitted] = useState(false);
@@ -80,7 +81,7 @@ const Home = () => {
         setSubmitted(true);
         reset(defaultValues);
         console.log("documment written with ID " + docRef.id);
-      }, 2000);
+      }, 1000);
     } catch (e) {
       console.log(e);
       alert(e);
@@ -102,7 +103,15 @@ const Home = () => {
   if (studiesInIB === null && !submitted)
     return <RenderIntroScreen handleIntroState={handleIntroScreenStates} />;
 
-  if (submitted) return <RenderSuccessScreen onClick={toggleSubmitted} />;
+  // if (submitted) return <RenderSuccessScreen onClick={toggleSubmitted} />;
+  if (submitted)
+    return (
+      <SubmissionState
+        state={"success"}
+        title={"Tu formulario fue enviado con exito"}
+        info={"Muhas gracias por completar nuestro formulario"}
+      />
+    );
 
   return (
     <motion.div
@@ -261,7 +270,7 @@ const Home = () => {
             </button>
             <div className="text-center mt-6">
               <span className="text-neutral-500 text-sm">
-                Tuviste algun inconveniente o tenes alguna sugerencia sobre el
+                ¿Tuviste algún inconveniente o tenes alguna sugerencia sobre el
                 cuestionario?
               </span>
               <Link
@@ -280,60 +289,17 @@ const Home = () => {
 
 export default Home;
 
-const RenderSuccessScreen = ({ onClick }) => {
-  return (
-    <motion.div className="fixed inset-0 z-20 grid place-items-center h-full w-full bg-neutral-900 text-white ">
-      <div className="text-center p-4">
-        <motion.span
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 1 }}
-          className="h-32 w-32 mb-10 mx-auto flex items-center justify-center  rounded-full bg-green-400/80"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={2}
-            stroke="currentColor"
-            className="w-12 h-12"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M4.5 12.75l6 6 9-13.5"
-            />
-          </svg>
-        </motion.span>
-        <motion.h1
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="text-4xl mb-6"
-        >
-          Tu mensaje fue enviado con exito
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.7 }}
-          className="text-neutral-400"
-        >
-          Muhas gracias por completar el formulario
-        </motion.p>
-        {/* <motion.button
-          onClick={onClick}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
-          className="bg-indigo-900 text-white py-1 px-4 place-self-center rounded-md mt-10"
-        >
-          Volver al inicio
-        </motion.button> */}
-      </div>
-    </motion.div>
-  );
-};
+{
+  /* <motion.button
+  onClick={onClick}
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  transition={{ delay: 1.5 }}
+  className="bg-indigo-900 text-white py-1 px-4 place-self-center rounded-md mt-10"
+>
+  Volver al inicio
+</motion.button> */
+}
 
 const RenderIntroScreen = ({ handleIntroState }) => {
   return (
