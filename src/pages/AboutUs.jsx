@@ -45,17 +45,35 @@ const AboutUs = () => {
           <div className="text-center flex flex-col items-center">
             <div className="h-40 w-40 mb-4 bg-gradient-to-tr from-indigo-500 to-indigo-400 rounded-md"></div>
             <h2 className="text-2xl">Guido Cardarelli</h2>
-            <span className="text-neutral-400">@guidocarda</span>
+            <a
+              className="text-neutral-400"
+              href="https://www.instagram.com/guidocarda/"
+              target="_blank"
+            >
+              @guidocarda
+            </a>
           </div>
           <div className="text-center flex flex-col items-center">
             <div className="h-40 w-40 mb-4 bg-gradient-to-tr from-indigo-500 to-indigo-400 rounded-md"></div>
             <h2 className="text-2xl">Joaquin Vesco Aparicio</h2>
-            <span className="text-neutral-400">@joacovesapa</span>
+            <a
+              className="text-neutral-400"
+              href="https://www.instagram.com/joaco.vesapa/"
+              target="_blank"
+            >
+              @joaco.vesapa
+            </a>
           </div>
           <div className="text-center flex flex-col items-center">
             <div className="h-40 w-40 mb-4 bg-gradient-to-tr from-indigo-500 to-indigo-400 rounded-md"></div>
             <h2 className="text-2xl">Mateo Salguero</h2>
-            <span className="text-neutral-400">@matesalguero</span>
+            <a
+              href="https://www.instagram.com/mateesalguero/"
+              className="text-neutral-400"
+              target="_blank"
+            >
+              @mateesalguero
+            </a>
           </div>
         </div>
       </main>
