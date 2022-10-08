@@ -56,7 +56,6 @@ const SubmissionState = ({ state, title, info }) => {
           className="text-4xl mb-6"
         >
           {title}
-          {/* Tu mensaje fue enviado con exito */}
         </motion.h1>
         <motion.p
           initial={{ opacity: 0 }}
@@ -65,7 +64,6 @@ const SubmissionState = ({ state, title, info }) => {
           className="text-neutral-400"
         >
           {info}
-          {/* Muhas gracias por completar el formulario */}
         </motion.p>
       </div>
     </motion.div>

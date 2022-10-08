@@ -30,7 +30,6 @@ const Feedback = () => {
   });
 
   const onSubmit = (data) => {
-    // sets all values toLowerCase()
     postDoc(data, "feedback");
     setIsSubmitted(true);
     reset(defaultValues);
@@ -41,7 +40,7 @@ const Feedback = () => {
       <SubmissionState
         state={"success"}
         title={"Tu mensaje fue enviado con exito"}
-        info={"Muhas gracias por dejarnos tu feedback"}
+        info={"Muchas gracias por dejarnos tu feedback"}
       />
     );
 
@@ -50,8 +49,11 @@ const Feedback = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="text-white min-h-screen grid place-content-center"
+      className="relative text-white min-h-screen h-full grid place-content-center overflow-hidden"
     >
+      <div className="absolute w-52 h-52 bg-purple-500 top-5 -right-20 rounded-full filter blur-2xl  opacity-10 "></div>
+      <div className="absolute w-96 h-96 bg-teal-500 top-29 -left-40 rounded-full filter blur-2xl opacity-10  "></div>
+      <div className="absolute w-96 h-96 bg-violet-500 -bottom-20 -right-64 rounded-full filter  blur-2xl opacity-10 "></div>
       <div className="relative max-w-screen-sm mx-auto px-4 py-10 rounded-md">
         <p className="mb-4">
           Buenas! Si ingresaste a esta pagina es porque tuviste algún
