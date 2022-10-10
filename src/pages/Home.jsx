@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 //Firebase
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
@@ -17,11 +17,26 @@ import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import CustomSelect from "../components/CustomSelect";
 import GameSelect from "../components/GameSelect";
 import Input from "../components/Input";
+import SubmissionState from "../components/SubmissionState";
 
 const Home = () => {
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [studiesInIB, setStudiesInIB] = useState(null);
+
+  useEffect(() => {
+    const submissionState = window.localStorage.getItem("submitted");
+    const userState = window.localStorage.getItem("studiesInIB");
+
+    if (submissionState) {
+      setSubmitted(true);
+      return setStudiesInIB(true);
+    }
+
+    if (userState) {
+      setStudiesInIB(userState);
+    }
+  }, []);
 
   const defaultValues = {
     name: "",
@@ -66,34 +81,34 @@ const Home = () => {
         ...formData,
         createdAt: serverTimestamp(),
       });
-
+      window.localStorage.setItem("submitted", "true");
       setTimeout(() => {
         setSubmitted(true);
         reset(defaultValues);
         console.log("documment written with ID " + docRef.id);
-      }, 2000);
+      }, 1000);
     } catch (e) {
       console.log(e);
       alert(e);
     }
   };
 
-  const handleIntroScreenStates = (studies) =>
+  const handleIntroScreenStates = (studies) => {
     studies ? setStudiesInIB(true) : setStudiesInIB(false);
-
-  // Temp functions
-  /////////////////////////////////////
-  const toggleSubmitted = () => {
-    setSubmitted((prev) => !prev);
-    setIsSubmitting((prev) => !prev);
-    setStudiesInIB(null);
+    window.localStorage.setItem("studiesInIB", studies);
   };
-  ////////////////////////////////////
 
-  if (studiesInIB === null)
+  if (studiesInIB === null && !submitted)
     return <RenderIntroScreen handleIntroState={handleIntroScreenStates} />;
 
-  if (submitted) return <RenderSuccessScreen onClick={toggleSubmitted} />;
+  if (submitted)
+    return (
+      <SubmissionState
+        state={"success"}
+        title={"Tu formulario fue enviado con exito"}
+        info={"Muhas gracias por completar nuestro formulario"}
+      />
+    );
 
   return (
     <motion.div
@@ -110,12 +125,20 @@ const Home = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="h-full md:max-w-xl px-4 py-12 flex flex-col justify-center gap-2 relative z-10"
       >
-        <Link
-          to="/dashboard"
-          className="bg-indigo-900 w-fit py-1 px-4 rounded-md self-end mb-6 hover:bg-indigo-800"
-        >
-          dashboard
-        </Link>
+        <div className="flex gap-2 mb-6">
+          <Link
+            to="/about-us"
+            className="bg-neutral-800 w-fit py-1 px-4 rounded-md hover:bg-indigo-800/20"
+          >
+            sobre nosotros
+          </Link>
+          <Link
+            to="/dashboard"
+            className="bg-indigo-900 w-fit py-1 px-4 rounded-md ml-auto hover:bg-indigo-800"
+          >
+            dashboard
+          </Link>
+        </div>
         <LayoutGroup>
           <motion.div layout>
             <p className="mb-4">
@@ -250,6 +273,18 @@ const Home = () => {
             >
               {!isSubmitting ? "Enviar" : "Enviando..."}
             </button>
+            <div className="text-center mt-6">
+              <span className="text-neutral-500 text-sm">
+                ¿Tuviste algún inconveniente o tenes alguna sugerencia sobre el
+                cuestionario?
+              </span>
+              <Link
+                to="/feedback"
+                className="text-indigo-400 ml-2 mt-4 text-sm hover:bg-indigo-700/20 hover:text-indigo-200 py-1 px-2 rounded-md z-10"
+              >
+                dejanosla aca.
+              </Link>
+            </div>
           </motion.div>
         </LayoutGroup>
       </form>
@@ -259,27 +294,17 @@ const Home = () => {
 
 export default Home;
 
-const RenderSuccessScreen = ({ onClick }) => {
-  return (
-    <motion.div
-      className="fixed inset-0 z-20 grid place-items-center h-full w-full bg-neutral-900 "
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-    >
-      <div className="grid place-content-center">
-        <h1 className="text-white text-4xl text-center px-4">
-          Gracias por completar el formulario
-        </h1>
-        <button
-          onClick={onClick}
-          className="bg-indigo-900 text-white py-1 px-4 w-min place-self-center rounded-md mt-4"
-        >
-          Home
-        </button>
-      </div>
-    </motion.div>
-  );
-};
+{
+  /* <motion.button
+  onClick={onClick}
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  transition={{ delay: 1.5 }}
+  className="bg-indigo-900 text-white py-1 px-4 place-self-center rounded-md mt-10"
+>
+  Volver al inicio
+</motion.button> */
+}
 
 const RenderIntroScreen = ({ handleIntroState }) => {
   return (

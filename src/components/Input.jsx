@@ -13,10 +13,10 @@ const Input = ({
 
   if (type === "textbox") {
     return (
-      <div className="relative">
+      <div className="relative w-full">
         <label className="inline-block mb-1 capitalize">{label}</label>
         <textarea
-          placeholder="Un videojuego ambientado en xxx que se trate de xxx y que el objetivo sea xxx ... Vo me entende, algo asi. Iluminanos"
+          placeholder={placeholder}
           {...register(inputName, { validate })}
           className="text-sm focus:outline-none focus:border-indigo-900  bg-neutral-900 border-2 border-neutral-800 rounded-md w-full p-2 resize-none mb-8 scrollbar"
           rows={3}
@@ -31,14 +31,14 @@ const Input = ({
   }
 
   return (
-    <div className="relative">
+    <div className="relative w-full">
       <label className="inline-block mb-1 capitalize">{label}</label>
 
       <input
         type={type ? type : "text"}
         {...register(inputName, { validate })}
         placeholder={placeholder}
-        className="focus:outline-none focus:border-indigo-900 bg-neutral-900 border-2 border-neutral-800 h-10 rounded-md w-full px-2 mb-8 "
+        className="focus:outline-none focus:border-indigo-900 autofill:!bg-neutral-900 bg-neutral-900 border-2 border-neutral-800 h-10 rounded-md w-full px-2 mb-8"
       />
 
       {errors[inputName] && (

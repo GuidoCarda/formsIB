@@ -8,13 +8,15 @@ import { Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./pages/ProtectedRoute";
 
 //Pages
-import Admin from "./pages/Admin";
+import Login from "./pages/Login";
 import DashBoard from "./pages/Dashboard";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 
 //Animations
 import { AnimatePresence } from "framer-motion";
+import Feedback from "./pages/Feedback";
+import AboutUs from "./pages/AboutUs";
 
 function App() {
   return (
@@ -22,7 +24,9 @@ function App() {
       <AnimatePresence mode="wait">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/feedback" element={<Feedback />} />
+          <Route path="/about-us" element={<AboutUs />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<DashBoard />} />
           </Route>

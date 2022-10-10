@@ -9,38 +9,38 @@ import { AuthContext } from "../context/AuthContext";
 
 //Animations
 import { motion } from "framer-motion";
+import { useForm } from "react-hook-form";
+import Input from "../components/Input";
 
-const Admin = () => {
+const Login = () => {
   //PRUEBA DE CONSULTAS DE DATOS
-  const [email, setEmail] = useState("");
-  const [psw, setPsw] = useState("");
   const [authError, setAuthError] = useState(null);
 
-  //PRUEBA DE CONSULTAS
-  /* const getDatos = async () => {
-    try{
-        const q = query(collection(db, "personas"));
-        const docRes = await getDocs(q);
+  const defaultValues = {
+    email: "",
+    password: "",
+  };
 
-        console.log(docRes);
-        // docRes.forEach((doc) => {
-        //     // doc.data() is never undefined for query doc snapshots
-        //     console.log(doc.id, " => ", doc.data());
-        //   });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ defaultValues });
 
-    }catch(e){
-        console.log(e)
-    } 
-}*/
   //REDIRECCION DE PAGINA
   const navigate = useNavigate();
 
   //UTILIZACION DE CONTEXTO
   const { authorizedUser, setAuthorizedUser } = useContext(AuthContext); //Se importa el contexto
 
+  const onSubmit = (userData) => {
+    const { email, password } = userData;
+    signIn(email, password);
+  };
+
   const auth = getAuth();
-  const singIn = () => {
-    signInWithEmailAndPassword(auth, email, psw)
+  const signIn = (email, password) => {
+    signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
@@ -62,17 +62,22 @@ const Admin = () => {
 
   if (authError) {
     return (
-      <div>
+      <div className="min-h-screen grid place-content-center text-white">
         {" "}
-        <h1>Ups usuario no autorizado</h1> <p>{authError?.errorCode}</p>
-        <p>{authError?.errorMessage}</p>
-        <button
-          className="bg-indigo-900 text-white p-3 rounded-md"
-          onClick={() => setAuthError(null)}
-        >
-          {" "}
-          Volver a intentarlo
-        </button>
+        <div className="bg-neutral-800 min-w-[400px] px-4  py-6 rounded-md flex flex-col">
+          <h1 className="text-2xl mb-6 ">Ups usuario no autorizado</h1>{" "}
+          <div className="text-neutral-300">
+            <p>{authError?.errorCode}</p>
+            <p>{authError?.errorMessage}</p>
+          </div>
+          <button
+            className="bg-indigo-900 text-white p-3 rounded-md mt-4"
+            onClick={() => setAuthError(null)}
+          >
+            {" "}
+            Volver a intentarlo
+          </button>
+        </div>
       </div>
     );
   }
@@ -93,29 +98,37 @@ const Admin = () => {
           con permisos de admistrador
         </p>
       </div>
-      <form className=" w-full sm:w-[400px]  z-10 flex flex-col items-center justify-center focus:border-indigo-900 bg-neutral-800/60 filter backdrop-blur-md border-2 border-neutral-800 h-auto rounded-md  px-4 py-8">
-        <div className="relative w-full flex flex-col mb-6">
-          <label htmlFor="email">Email</label>
-          <input
-            onChange={(ev) => setEmail(ev.target.value)}
-            placeholder="Email"
-            className="focus:outline-none focus:border-indigo-900 bg-neutral-900 border-2 border-neutral-800 h-10 rounded-md w-full px-2"
-          />
-        </div>
-        <div className="relative w-full flex flex-col  mb-6">
-          <label htmlFor="psw">Contraseña</label>
-          <input
-            onChange={(ev) => setPsw(ev.target.value)}
-            type={"password"}
-            placeholder="Contraseña"
-            className="focus:outline-none focus:border-indigo-900 bg-neutral-900 border-2 border-neutral-800 h-10 rounded-md w-full px-2"
-          />
-        </div>
-        <button
-          onClick={singIn}
-          type="button"
-          className="bg-indigo-700 w-full py-2 rounded-md mt-5 text-white font-bold"
-        >
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className=" w-full sm:w-[400px]  z-10 flex flex-col items-center justify-center focus:border-indigo-900 bg-neutral-800/60 filter backdrop-blur-md border-2 border-neutral-800 h-auto rounded-md  px-4 py-8"
+      >
+        <Input
+          label="email"
+          type={"text"}
+          inputName="email"
+          register={register}
+          errors={errors}
+          validate={{
+            required: (v) => v.trim().length > 0 || "Campo requerido",
+            isEmail: (v) =>
+              v
+                .trim()
+                .match(
+                  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                ) || "No es un email valido",
+          }}
+        />
+        <Input
+          label="contraseña"
+          type={"password"}
+          inputName="password"
+          register={register}
+          errors={errors}
+          validate={{
+            required: (v) => v.trim().length > 0 || "Campo requerido",
+          }}
+        />
+        <button className="bg-indigo-700 w-full py-2 rounded-md mt-5 text-white font-bold">
           Enviar
         </button>
       </form>
@@ -129,4 +142,4 @@ const Admin = () => {
   );
 };
 
-export default Admin;
+export default Login;

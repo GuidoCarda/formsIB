@@ -7,16 +7,18 @@ import { RadioGroup } from "@headlessui/react";
 import { useController } from "react-hook-form";
 
 const games = [
-  "Valorant",
-  "CSGO",
-  "LOL",
-  "WoW",
-  "TFT",
-  "Hearthstorm",
-  "Souls",
-  "GTA V",
-  "Clash Royale",
-  "Free Fire",
+  "valorant",
+  "csgo",
+  "fifa",
+  "lol",
+  "wow",
+  "tft",
+  "hearthstorm",
+  "souls",
+  "gta v",
+  "clash royale",
+  "free fire",
+  "minecraft",
 ];
 
 function GameSelect(props) {
@@ -62,7 +64,7 @@ function GameSelect(props) {
           >
             {
               <span
-                className={`flex items-center border-2 border-neutral-800 transition-colors rounded-md h-full px-4 overflow-hidden  ${
+                className={`capitalize flex items-center border-2 border-neutral-800 transition-colors rounded-md h-full px-4 overflow-hidden  ${
                   selectedGames.includes(game.toLowerCase())
                     ? "bg-indigo-900 border-indigo-500 text-white"
                     : ""
