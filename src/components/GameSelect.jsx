@@ -46,6 +46,7 @@ function GameSelect(props) {
   // updates the component value when the state changes
   useEffect(() => {
     onChange(selectedGames);
+    console.log(selectedGames)
   }, [selectedGames]);
 
   return (
